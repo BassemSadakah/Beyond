@@ -1,0 +1,130 @@
+<% include partials/header.ejs %>
+<% include partials/navbar.ejs %>
+<style>
+    body {
+        background: white !important;
+    }
+
+    #head_new {
+        width: 100%;
+        background: rgb(254, 242, 0);
+        background: radial-gradient(circle, rgba(254, 242, 0, 1) 0%, rgba(255, 133, 0, 1) 63%);
+        /* background: url(img/logo.png),url(img/line.png),url(img/seekers.png),radial-gradient(circle, rgba(254,242,0,1) 0%, rgba(255,133,0,1) 63%) ;
+background-position: left;
+background-position: center;
+background-size:30px   auto ;
+background-repeat: no-repeat; */
+    }
+
+    .head_logo {
+        width: 400px;
+        margin-left: 30px;
+    }
+
+    .head_line {
+        height: 300px;
+        margin: 40px 40px 40px 90px;
+    }
+
+    .head_seekers {
+        width: 400px;
+    }
+
+    @media(max-width:1000px) {
+        .head_line {
+            visibility: hidden;
+            height: 0;
+            margin: 0;
+        }
+
+        .head_logo {
+            display: block;
+            margin: auto;
+            padding-top: 100px;
+        }
+
+        .head_seekers {
+            display: block;
+            margin-left: 60px;
+
+        }
+
+    }
+
+    @media(max-width:470px) {
+        .head_line {
+            visibility: hidden;
+            height: 0;
+            margin: 0;
+        }
+
+        .head_logo {
+            width: 95%;
+            display: block;
+            margin: auto;
+            padding-top: 100px;
+        }
+
+        .head_seekers {
+            width: 95%;
+            display: block;
+            margin-left: 20px;
+
+        }
+
+    }
+</style>
+
+<div id="head_new">
+    <center>
+        <img class="head_logo" src="img/logo.png?rand=<%=Math.random()%>">
+        <img class="head_line" src="img/line.png?rand=<%=Math.random()%>">
+        <img class="head_seekers" src="img/seekers.png?rand=<%=Math.random()%>">
+    </center>
+</div>
+<style>
+    .home_item {
+        max-width: 400px;
+        width: 95%;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        margin: 50px auto;
+        border-radius: 15px;
+        padding: 50px;
+
+
+    }
+    #signin_a:hover{
+        text-decoration: none !important;
+    }
+</style>
+<div class="home_item">
+    <h6 style="font-family: Righteous;color: rgba(0, 0, 0, 0.5)">Register now to solve tons of questions</h6>
+    <hr>
+    <center>
+        <a href="signup"><button type="button" class="btn btn-warning btn-lg"
+                style="font-family: Righteous;color:white">Register Now</button></a>
+        <br>
+        <br>
+        <a href="/auth/facebook" class="fb connect">Continue with Facebook</a>
+        <br>
+        <br>
+
+
+        <small>Already a user</small>
+        <br>
+        <a href="signin" id="signin_a">
+            <button class="btn btn-primary btn-sm" style="color:white">Signin</button>
+        </a>
+
+
+        <br>
+
+
+
+
+    </center>
+</div>
+
+
+<% include partials/foot.ejs %>
+<% include partials/footer.ejs %>

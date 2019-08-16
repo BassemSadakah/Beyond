@@ -1,0 +1,63 @@
+<% include partials/header.ejs %>
+<% include partials/navbar.ejs %>
+<style media="screen">
+  .ss {
+    width: 95%;
+    max-width: 411px;
+    margin: auto;
+    margin-top: 111px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 23px;
+    border-radius: 11px;
+    background: white;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1)
+  }
+
+  input:hover {
+    box-shadow: 0 0 5px 0px rgba(1, 1, 1, 0.3)
+  }
+</style>
+
+
+
+<div class="ss">
+  <%if (typeof redirectURL != 'undefined'){%>
+  <form action="/signin?redirectURL=<%=redirectURL%>" method="post">
+    <%}else{%>
+    <form action="/signin" method="post">
+      <%}%>
+    <h2 class="display-6" style="text-align:center;font-weight:800;margin-bottom:50px;margin-top: 20px">Sign In</h2>
+
+  <div class="form-group">
+<%if (typeof err != 'undefined'){%>
+      <div class="alert alert-danger">
+        <%=errmsg%>
+      </div>
+      <%}%>
+    <label for="exampleInputEmail1">Email address</label>
+    <%if(typeof email != 'undefined'){%>
+    <input name="email" type="email" value="<%=email%>" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+    <%}else{%>
+      <input name="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+    <%}%>
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Password</label>
+    <input name="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+  </div>
+  <div class="form-group form-check">
+    <input name='remember_me' type="checkbox" class="form-check-input" id="exampleCheck1">
+    <label  class="form-check-label" for="exampleCheck1">Remember me</label>
+  </div>
+  <div align="right">
+    <button type="submit" class="btn btn-success btn-block login" >Login</button>
+    <center>
+      <a style="margin-top:20px;" href="/auth/facebook" class="fb connect">Sign in with Facebook</a>
+    </center>
+    <center> <small style="text-align:center">New User <a href="signup">Sign up</a></small> </center>
+  </div>
+</form>
+  </div>
+<%include partials/foot.ejs%>
+
+<% include partials/footer.ejs %>

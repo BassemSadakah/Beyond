@@ -1,0 +1,58 @@
+<%include ../partials/header.ejs%>
+<%include ../partials/signed/navbar.ejs%>
+<style>
+    body {
+        background-color: #fafafa;
+    }
+
+    .image {
+        display: block;
+        max-width: 290px;
+        max-height: 293px;
+        width: auto;
+        height: auto;
+        display: block;
+        margin: auto;
+        position: absolute;
+       top:0;
+       left: 0px;
+       right: 0;
+       bottom: 0;
+    margin: auto;
+
+    }
+
+    .square {
+        width: 293px;
+        height: 293px;
+        background: white;
+        position: relative;
+        border: 1px solid rgba(0, 0, 0, 0.07);
+    }
+
+    .col {
+        margin: 14px;
+        box-sizing: content-box;
+        box-sizing: border-box;
+
+    }
+</style>
+<div class="container">
+
+    <div class="row justify-content-md-center">
+        <%for(var x =1;x<25;x++){%>
+        <div class="col col-lg-3 col-md-4 col-sm-6 col-xs-12 ">
+            <div class="square">
+
+                <img class="image " src="img/stem-photos/<%=x%>.jpg" onerror="this.src=\"img/stem-photos/<%=x%>.png\"">
+
+            </div>
+        </div>
+        <%}%>
+        </div>
+ </div>
+
+
+
+<%include ../partials/foot.ejs%>
+<%include ../partials/footer.ejs%>

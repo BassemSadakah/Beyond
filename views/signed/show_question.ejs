@@ -1,0 +1,189 @@
+<%include ../partials/header.ejs%>
+<link rel="stylesheet" href="css/home_signed.css?rand=<%=Math.random()%>">
+<%include ../partials/signed/navbar.ejs%>
+<style media="screen">
+  .progress {
+    background: white;
+    border: 0px solid rgba(245, 245, 245, 1);
+    border-radius: 35px;
+    height: 45px;
+    margin: 15px 0px;
+  }
+
+  .progress-bar-custom {
+    background: rgba(66, 139, 202, 1);
+    margin: 0px;
+    padding: 0px !important;
+  }
+
+  .answer {
+    height: 100%;
+    /* background: linear-gradient(90deg, #FFC0CB 34%, #FFFFFF 34%); */
+  }
+</style>
+<div style="margin-top:40px" class="container xxxxx">
+  <div class="item">
+    <div class="item_nav_top">
+      <div class="nav_float_right">
+        <div class="nav_close"></div>
+        <div class="nav_minimize"></div>
+        <div class="nav_idk"></div>
+      </div>
+      <div class="nav_float_left">
+        <img src="/img/default_profile_pic.png?rand=<%=Math.random()%>">
+        <small>uploaded by <%=question_data.first_name%> <%=question_data.last_name%>
+        </small>
+      </div>
+    </div>
+
+    <div class="item_question">
+      <%if(question_data.question_img){%>
+      <div class="item_question_img"> <img src="<%=question_data.question_img%>"> </div>
+      <hr>
+      <%}%>
+      <%if(question_data.question){%>
+      <p id="question_text" style="font-family: Righteous;color: rgba(0, 0, 0, 0.5);margin-top:10px;margin-left: 10px"><%=question_data.question%></p>
+      <hr><%}%>
+    </div>
+    <%if(question_data.answer_img){%>
+      <div class="item_answer">
+        <div class="item_answer_img"> <img src="<%=question_data.answer_img%>"> </div>
+      </div>
+      <hr>
+      <%}%>
+
+    <div id="choices" class="choices_<%=question_data.id%>">
+      <%var choices = '';
+    var array = [question_data.ans_a, question_data.ans_b, question_data.ans_c, question_data.ans_d, question_data.ans_e, question_data.ans_f, question_data.ans_g, question_data.ans_h];
+    for (var i = 0; i < question_data.ans_num; i++) {
+      %>
+      <div class="answer answer_border answer_hover hide" value='<%=(i+1)%>'><%=array[i]%><div id="background"></div>
+      </div>
+
+      <%}%>
+      </div>
+      <center>
+        <button disabled="" style="height: 38px;width:76px" class="btn btn-success" onclick="submit_answer(<%=question_data.id%>,this)">Submit</button>
+      </center>
+    </div>
+  </div>
+
+
+
+  <%include ../partials/foot.ejs%>
+  <script>
+    // var correct_color='rgba(0,255,0,0.2)';
+    // var correct_color='#76ff5ddb';
+    var correct_color = '#3eec34';
+    // var wrong_color='rgba(255,0,0,0.2)';
+    var wrong_color = '#ff000063';
+    $('.answer').on('click', function() {
+      $('.answer').removeClass('answer_active');
+      $('.answer').addClass('answer_border');
+      $(this).addClass('answer_active');
+      $(this).removeClass('answer_border');
+      $(this).parent().next().children().attr('disabled', false);
+
+    });
+
+
+    function submit_answer(question_id, btn) {
+      $(btn).attr('disabled', true);
+      var user_answer = $('.answer_active').attr('value');
+      $(btn).html(' <span class="spinner-border text-light" style="height:20px;width:20px;" role="status"></span>')
+      $.ajax({
+        type: "POST",
+        url: "/api/submit_answer",
+        data: {
+          question_id: question_id,
+          answer: user_answer
+        },
+        success: function(data) {
+          console.log(data);
+          console.log('rr');
+          $(btn).html('Show Answers');
+          $(btn).removeClass('btn-success');
+          $(btn).addClass('btn-primary')
+          $(btn).css({
+            width: 'auto'
+          });
+          $(btn).attr('hidden', false);
+          $(btn).prop(onclick, '');
+          $(btn).attr("onclick", "");
+          $(btn).bind('click', click_stats(question_id, data, btn));
+
+          function click_stats(question_id, data, btn) {
+            return function() {
+              $(btn).attr('hidden', true);
+              console.log(question_id);
+              console.log(data);
+
+              for (var i = 0; i < $('.choices_' + question_id + ' .answer').length; i++) {
+                $('.choices_' + question_id + ' .answer').eq(i).css({
+                  background: "linear-gradient(90deg, " + ((data.answers_percent[i] > 49) ? 'rgb(196, 255, 192)' : (data.answers_percent[i] > 24) ? '#ade8ef' : '#fff0b9') + ' ' + data.answers_percent[i] + "%, #FFFFFF " + (data.answers_percent[i]) + "%)"
+                });
+              }
+              $('.choices_' + question_id).children().unbind('click');
+              $('.choices_' + question_id).children().removeClass('answer_hover answer_active not_active hide');
+              $('.choices_' + question_id).children().addClass('answer_border');
+              $('.choices_' + question_id).parent().children().children().eq(1).html('<center><small>Total answers: ' + data.total_answers + '</small></center>')
+
+            }
+          }
+          // $(btn).bind('click', onclick(question_id,data));*/
+          $(btn).attr('disabled', false);
+          if (data.answered) {
+            if (data.result == 'wrong') {
+              $('.choices_' + question_id + ' [value=' + user_answer + ']').addClass('animated shake')
+              $('.choices_' + question_id + ' [value=' + user_answer + ']').css('background', wrong_color)
+              $('.choices_' + question_id + ' [value=' + data.answer + ']').css('background', correct_color)
+              $('.choices_' + question_id).parent().children().children().eq(1).html('<center><small>Wrong</small></center>')
+            } else {
+              // $('.choices_' + question_id + ' [value=' + data.answer + ']').css('background', 'rgba(0,255,0,0.2)');
+              $('.choices_' + question_id + ' [value=' + data.answer + ']').css('background', correct_color);
+              $('.choices_' + question_id).parent().children().children().eq(1).html('<center><small>Right</small></center>')
+            }
+            $('.choices_' + question_id + ' [value=' + data.answer + ']').removeClass('hide');
+            $('.choices_' + question_id + ' [value=' + user_answer + ']').removeClass('hide ');
+            $('.choices_' + question_id).children().removeClass('answer_hover');
+            $('.choices_' + question_id + ' .hide').addClass('not_active');
+            $('#score_num').text(Number($('#score_num').text()) + data.points);
+          } else {
+
+
+            if (data.result_id == 0) {
+              $('.choices_' + question_id + ' [value=' + user_answer + ']').css('background', '#ade8ef');
+              $('.choices_' + question_id).parent().children().children().eq(1).html('<center><small>We Can\'t tell if this\'s a correct answer</small></center>')
+            } else if (data.result_id == 1) {
+              $('.choices_' + question_id).parent().children().children().eq(1).html('<center><small>We aren\'t sure if this\'s a wrong answer</small></center>')
+              $('.choices_' + question_id + ' [value=' + user_answer + ']').css('background', '#ade8ef');
+            } else if (data.result_id == 2) {
+              $('.choices_' + question_id + ' [value=' + user_answer + ']').css('background', correct_color);
+              $('.choices_' + question_id).parent().children().children().eq(1).html('<center><small>Right</small></center>')
+              // $('.choices_' + question_id + ' [value=' + user_answer + ']').css('background', 'rgba(0,255,0,0.2)');
+            } else if (data.result_id == 3) {
+              $('.choices_' + question_id + ' [value=' + user_answer + ']').addClass('animated shake')
+              $('.choices_' + question_id + ' [value=' + user_answer + ']').css('background', wrong_color)
+              $('.choices_' + question_id).parent().children().children().eq(1).html('<center><small>Wrong</small></center>')
+              $('.choices_' + question_id + ' [value=' + (data.max_index + 1) + ']').css('background', correct_color)
+            }
+            $('.choices_' + question_id + ' [value=' + data.answer + ']').removeClass('hide');
+            $('.choices_' + question_id + ' [value=' + user_answer + ']').removeClass('hide ');
+            $('.choices_' + question_id).children().removeClass('answer_hover');
+            $('.choices_' + question_id + ' .hide').addClass('not_active');
+            $('#score_num').text(Number($('#score_num').text()) + data.points);
+          }
+          // $('.choices_' + question_id).parent().children().children().eq(1).html('<center><small>Total answers: ' + data.total_answers + '</small></center>')
+
+        },
+        error: function(jqXHR, textStatus, err) {
+          $(btn).attr('disabled', false);
+          $(btn).html('Submit');
+
+          // alert('text status ' + textStatus + ', err ' + err) //Remove in production
+        }
+      });
+    }
+
+  </script>
+  <%include ../partials/footer.ejs%>

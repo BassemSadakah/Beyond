@@ -1,0 +1,185 @@
+<style>
+  .bell {
+    color: white;
+    font-size: 25px;
+    margin: 5px 30px
+  }
+
+  .bell:hover {
+    cursor: pointer;
+  }
+
+  .notification_num {
+    border-radius: 50%;
+    background-color: red;
+    color: white;
+    height: 20px;
+    width: 20px;
+    text-align: center;
+    line-height: 18px;
+    position: absolute;
+    top: 3px;
+    right: 40px;
+    border: 1px solid #0185de;
+    box-sizing: unset;
+    font-family: Righteous;
+    font-size: 16px;
+
+  }
+
+  .notifications {
+    /* width: 1000px; */
+    overflow: scroll;
+
+  }
+
+  .popover-body::-webkit-scrollbar {
+    width: 0 !important;
+    /* display: none; */
+    /* background: transparent; */
+  }
+
+
+  .not_approval_img {
+    height: 30px;
+    width: 30px;
+    margin-right: 10px;
+    border-radius: 50%;
+    float: left
+  }
+.not_loading_img_div{
+  width: 400px;
+  /* text-align: center; */
+
+}
+  .not_loading {
+    width: 150px;
+  }
+
+  .not_approval_text {
+    width: 250px;
+  }
+
+
+  .popover-body{
+    max-height: 400px;
+    overflow: scroll;
+
+  }
+
+
+.not_item:hover{
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.05);
+
+}
+
+.not_item{
+  text-overflow: clip;
+}
+.popover{
+  /* left:5% !important; */
+}
+</style>
+<div class="notification">
+  <i class="fa fa-bell bell" id="notification_bell" data-container="body" data-toggle="popover" data-placement="bottom" title="Notifications"
+    data-html="true" data-content='
+    <div class="not_loading_img_div">
+
+   loading...
+
+  </div>
+    '>
+    <div><small class="notification_num">0</small></div>
+  </i>
+
+</div>
+
+<script>
+  $(document).on('click', function (e) {
+    if ($(e.target).closest(".popover").length === 0 && $(e.target).closest(".notification").length===0 ) {
+     $("[data-toggle=popover]").popover('hide');
+    console.log('a7a');
+    }
+    console.log($(e.target).closest(".notifications").length);
+});
+
+  var Seen=0;
+  var done=0;
+  $(function(){$('[data-toggle="popover"]').popover()})
+
+ function notifications_html(data){
+   if(data.notifications_num==0){return('<div class="not_loading_img_div">You have no new notifications <br><!-- <a href="/notifications">See all old notifications</a>--></div>')}
+   else{
+     var not='';
+     console.log(data)
+     for(var i=0;i<data.notifications_num;i++){
+not+=`
+<a href="/questions" id="not_a" style="color:#212529;"
+<div class="not_item">
+  <img class="not_approval_img" src ="` + `/img/check_mark.png` + `">
+  <div class="not_approval_text">Your Question &quot;` +((data.notifications[i].question) ? escapeHtml(data.notifications[i].question.substring(0, 25)) : '') + `...&quot; has been approved Check it now</div>
+  <hr>
+  </div>
+  </a>
+`
+        }
+        return(not)
+   }
+
+ }
+
+
+
+
+
+
+ $("[data-toggle=popover]").on('shown.bs.popover', function () {
+  Seen=1;
+     if(done){
+       seen();
+       done=0;
+     }
+ });
+
+  function get_notifications() {
+  $.ajax({
+      type: "GET",
+      url: "/api/notifications",
+      success: function (data) {
+        if(Seen){
+          seen();
+        }else{
+          done=1;
+        }
+        $('.notification_num').text(data.notifications_num);
+        $('.popover-body').html(notifications_html(data));
+        $('#notification_bell').attr('data-content', notifications_html(data))
+
+      },
+      error: function (jqXHR, textStatus, err) {
+        $('#notification_bell').attr('data-content', 'something went wrong')
+        $('.popover-body').html('');
+        $('.popover-body').append('<div>something went wrong</div>');
+      }
+    });
+  }
+  setTimeout(() => {
+    get_notifications()
+  }, 3000);
+ function seen() {
+   $.ajax({
+     type: "GET",
+     url: "/api/notifications_seen",
+     success: function (data) {
+       console.log(data);
+       if(!data.err){
+         $('.notification_num').text(0);
+         // $('.notification_num').css({ display: 'none' })
+       }
+     },
+     error: function (jqXHR, textStatus, err) {
+     }
+   });
+ }
+</script>

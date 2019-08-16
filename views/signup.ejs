@@ -1,0 +1,200 @@
+<% include partials/header.ejs %>
+<% include partials/navbar.ejs %>
+<style media="screen">
+  #signup_form {
+    width: 95%;
+    margin-top: 50px;
+    padding: 50px 30px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 11px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 450px;
+
+  }
+
+  .signup_inputs:hover {
+    box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.75);
+  }
+
+  .signup_inputs:focus {
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 255, 0.7) !important;
+  }
+
+  #signup_submit_btn {
+    width: 100%;
+    margin: 20px 0 0 0
+  }
+
+  #a:active {
+    border: 1px solid green !important;
+  }
+</style>
+
+
+<div class="container" id="signup_form">
+  <h2 class="display-6" style="text-align:center;font-weight:800;margin-bottom:50px;">Sign up</h2>
+  <div class="alert alert-danger" id="err_alert" hidden> Something Went Wrong</div>
+  <% if(typeof err !='undefined') {%>
+  <div class="alert alert-danger" id="err_alert2"> <%-errmsg%> </div>
+  <form class="" method='post' action='/signup' onsubmit="return signup_submit()">
+    <div class="form-row">
+      <div class="form-group col-sm-6">
+        <input type="text" class="form-control signup_inputs" name="first_name" id="first_name_in" value="<%=first_name%>" placeholder="First Name">
+      </div>
+      <div class="form-group col-sm-6">
+        <input type="text" class="form-control signup_inputs" name="last_name" id="last_name_in" value="<%=last_name%>" placeholder="Last Name">
+      </div>
+    </div>
+    <div class="form-group">
+      <input type="email" class="form-control signup_inputs" name="email" id="email_in" value="<%=email%>" placeholder="Email">
+    </div>
+    <%} else{%>
+    <form class="" method='post' action='/signup' onsubmit="return signup_submit()">
+      <div class="form-row">
+        <div class="form-group col-sm-6">
+          <input type="text" class="form-control signup_inputs" name="first_name" id="first_name_in" placeholder="First Name">
+        </div>
+        <div class="form-group col-sm-6">
+          <input type="text" class="form-control signup_inputs" name="last_name" id="last_name_in" placeholder="Last Name">
+        </div>
+      </div>
+      <div class="form-group">
+        <input type="email" class="form-control signup_inputs" id="email_in" name="email" placeholder="Email">
+      </div>
+      <%}%>
+    <div class="form-group">
+      <input type="password" class="form-control signup_inputs" id="password_in" name="password" placeholder="password">
+    </div>
+    <div class="form-group">
+      <input type="password" class="form-control signup_inputs"  id="conf_password_in" name="password_confirm" placeholder="Confirm password">
+      <button id="signup_submit_btn" type="submit" class="btn btn-success">Register</button>
+      <small>By signing up you agree to our <a href="privacy_policy">privacy policy</a></small>
+      <center>
+        <a style="margin-top:20px;" href="/auth/facebook" class="fb connect">Sign up with Facebook</a>
+      </center>
+</div>
+</form>
+</div>
+
+<script type="text/javascript">
+  function signup_submit(){
+    if(!$('#first_name_in')[0].value || !$('#last_name_in')[0].value || !$('#email_in')[0].value || !$('#password_in')[0].value || !$('#conf_password_in')[0].value ){
+      $('#err_alert').text("You can't leave any blank inputs");
+      $('#err_alert').prop('hidden', false);
+      if($('#err_alert2')){
+        $('#err_alert2').prop('hidden', true);
+      }
+      for(var i=0;i<$('.signup_inputs').length;i++){
+        $('.signup_inputs')[i].style.border=" 1px solid #ced4da";;
+      }
+      if(!$('#first_name_in')[0].value){
+        $('#first_name_in')[0].style.border="2px solid #f7264b";
+      }
+      if(!$('#last_name_in')[0].value){
+        $('#last_name_in')[0].style.border="2px solid #f7264b";
+      }
+      if(!$('#email_in')[0].value){
+        $('#email_in')[0].style.border="2px solid #f7264b";
+      }
+      if(!$('#password_in')[0].value){
+        $('#password_in')[0].style.border="2px solid #f7264b";
+      }
+      if(!$('#conf_password_in')[0].value){
+        $('#conf_password_in')[0].style.border="2px solid #f7264b";
+      }
+      return false;
+    } else if($('#first_name_in')[0].value.replace(/\ /g,"").length<$('#first_name_in')[0].value.length){
+      $('#err_alert').text("First name shouldn't contain spaces");
+      $('#err_alert').prop('hidden', false);
+      if($('#err_alert2')){
+        $('#err_alert2').prop('hidden', true);
+      }
+      for(var i=0;i<$('.signup_inputs').length;i++){
+        $('.signup_inputs')[i].style.border=" 1px solid #ced4da";;
+      }
+      $('#first_name_in')[0].style.border="2px solid #f7264b";
+      return false;
+    }else if($('#first_name_in')[0].value.length>15){
+      $('#err_alert').text("First name shouldn't be more than 15 characters");
+      $('#err_alert').prop('hidden', false);
+      if($('#err_alert2')){
+        $('#err_alert2').prop('hidden', true);
+      }
+      for(var i=0;i<$('.signup_inputs').length;i++){
+        $('.signup_inputs')[i].style.border=" 1px solid #ced4da";;
+      }
+      $('#first_name_in')[0].style.border="2px solid #f7264b";
+      return false;
+    }else if($('#last_name_in')[0].value.length>15){
+      $('#err_alert').text("Last name shouldn't be more than 15 characters");
+      $('#err_alert').prop('hidden', false);
+      if($('#err_alert2')){
+        $('#err_alert2').prop('hidden', true);
+      }
+      for(var i=0;i<$('.signup_inputs').length;i++){
+        $('.signup_inputs')[i].style.border=" 1px solid #ced4da";;
+      }
+      $('#last_name_in')[0].style.border="2px solid #f7264b";
+      return false;
+    }else if($('#email_in')[0].value.length>50){
+      $('#err_alert').text("Email shouldn't be more than 50 characters");
+      $('#err_alert').prop('hidden', false);
+      if($('#err_alert2')){
+        $('#err_alert2').prop('hidden', true);
+      }
+      for(var i=0;i<$('.signup_inputs').length;i++){
+        $('.signup_inputs')[i].style.border=" 1px solid #ced4da";;
+      }
+      $('#email_in')[0].style.border="2px solid #f7264b";
+      return false;
+    }else if($('#last_name_in')[0].value.replace(/\ /g,"").length<$('#last_name_in')[0].value.length){
+      $('#err_alert').text("Last name shouldn't contain spaces");
+      $('#err_alert').prop('hidden', false);
+      if($('#err_alert2')){
+        $('#err_alert2').prop('hidden', true);
+      }
+      for(var i=0;i<$('.signup_inputs').length;i++){
+        $('.signup_inputs')[i].style.border=" 1px solid #ced4da";;
+      }
+      $('#last_name_in')[0].style.border="2px solid #f7264b";
+      return false;
+    }else if($('#password_in')[0].value!=$('#conf_password_in')[0].value){
+      $('#err_alert').text("passwords didn't match");
+      $('#err_alert').prop('hidden', false);
+      if($('#err_alert2')){
+        $('#err_alert2').prop('hidden', true);
+      }
+      for(var i=0;i<$('.signup_inputs').length;i++){
+        $('.signup_inputs')[i].style.border=" 1px solid #ced4da";;
+      }
+      $('#password_in')[0].style.border="2px solid #f7264b";
+      $('#conf_password_in')[0].style.border="2px solid #f7264b";
+      return false;
+    }else if($('#password_in')[0].value.length<6){
+      $('#err_alert').text("password shouldn't be less than 6 characters");
+      for(var i=0;i<$('.signup_inputs').length;i++){
+        $('.signup_inputs')[i].style.border=" 1px solid #ced4da";;
+      }
+      $('#password_in')[0].style.border="2px solid #f7264b";
+      if($('#err_alert2')){
+        $('#err_alert2').prop('hidden', true);
+      }
+      $('#err_alert').prop('hidden', false);
+      return false;
+    }
+    else{
+      return true;
+    }
+  }
+</script>
+
+
+
+
+
+
+
+
+<% include partials/foot.ejs %>
+<% include partials/footer.ejs %>

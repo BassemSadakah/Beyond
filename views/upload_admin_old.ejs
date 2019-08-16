@@ -1,0 +1,309 @@
+<%include partials/header.ejs%>
+<%include partials/navbar.ejs%>
+<style>
+  #upload_form_admin {
+    margin-top: 50px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    padding: 50px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 50px;
+  }
+
+  input,
+  textarea {
+    margin: 10px 0;
+  }
+
+  .file {
+    background-color: red;
+  }
+
+
+
+  .image {
+    padding: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    width: 150px;
+    margin: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+
+  }
+
+  .small_input {
+    width: 80px;
+    text-align: center;
+    display: inline;
+  }
+</style>
+<input onchange="ans_b_img_upload()" class="file" hidden type="file" name="ans_b_img" id="ans_b_img">
+<input onchange="ans_a_img_upload()" class="file" hidden type="file" name="ans_a_img" id="ans_a_img">
+<input onchange="ans_c_img_upload()" class="file" hidden type="file" name="ans_c_img" id="ans_c_img">
+<input onchange="ans_d_img_upload()" class="file" hidden type="file" name="ans_d_img" id="ans_d_img">
+<input onchange="ans_e_img_upload()" class="file" hidden type="file" name="ans_e_img" id="ans_e_img">
+<input onchange="ans_f_img_upload()" class="file" hidden type="file" name="ans_f_img" id="ans_f_img">
+<input onchange="ans_g_img_upload()" class="file" hidden type="file" name="ans_g_img" id="ans_g_img">
+<input onchange="ans_h_img_upload()" class="file" hidden type="file" name="ans_h_img" id="ans_h_img">
+<input class="file" onchange="question_img_upload()" hidden type="file" name="question_img" id="question_img">
+<input class="file" onchange="answer_img_upload()" hidden type="file" name="answer_img" id="answer_img">
+
+
+<div class="container">
+  <div id="upload_form_admin">
+    <form action="/admin/upload" method="POST">
+      <center>
+        <%if (typeof msg!='undefined' || typeof err!='undefined') {%>
+        <div class="alert <%=msg_type%>">
+          <%=msg%>
+        </div>
+        <%}%>
+          <input placeholder="admin_name" name="admin_name" id="admin_name" type="text" class="form-control" >
+          <textarea placeholder=" Question" name="question" type="text" class="form-control"></textarea>
+
+
+
+          <center>
+          <div class="image"> <img id="question_image" src="https://softdeals.in/admin/Image/Products/default.png" width="125px" style="margin-bottom: 10px;" alt=""><button type="button" class="upload btn btn-block btn-success" id="question_img_btn">Question</button></div>
+         </center>
+
+
+
+        <hr>
+        <input type="text" class="form-control small_input" name="ans_a" placeholder="1st ans">
+        <input type="text" class="form-control small_input" name="ans_b" placeholder="2nd ans">
+        <input type="text" class="form-control small_input" name="ans_c" placeholder="3rd ans">
+        <input type="text" class="form-control small_input" name="ans_d" placeholder="4th ans">
+        <input type="text" class="form-control small_input" name="ans_e" placeholder="5th ans">
+        <input type="text" class="form-control small_input" name="ans_f" placeholder="6th ans">
+        <input type="text" class="form-control small_input" name="ans_g" placeholder="7th ans">
+        <input type="text" class="form-control small_input" name="ans_h" placeholder="8th ans">
+        <hr>
+
+                  <center>
+
+                  <div class="image"> <img id="answer_image" src="https://softdeals.in/admin/Image/Products/default.png" width="125px" style="margin-bottom: 10px;" alt=""><button type="button" class="upload btn btn-block btn-success" id="answer_img_btn">Answer</button></div>
+                 </center>
+
+        <input  hidden type="text" name="ans_b_img" id="ans_b_base64">
+        <input  hidden type="text" name="ans_a_img" id="ans_a_base64">
+        <input  hidden type="text" name="ans_c_img" id="ans_c_base64">
+        <input  hidden type="text" name="ans_d_img" id="ans_d_base64">
+        <input  hidden type="text" name="ans_e_img" id="ans_e_base64">
+        <input  hidden type="text" name="ans_f_img" id="ans_f_base64">
+        <input  hidden type="text" name="ans_g_img" id="ans_g_base64">
+        <input  hidden type="text" name="ans_h_img" id="ans_h_base64">
+        <input  hidden type="text" name="question_img" id="question_base64">
+        <input  hidden type="text" name="answer_img" id="answer_base64">
+
+        <!-- ################################################################# -->
+        <!--
+        <comment>Answer images upload</comments>
+        <div class="image"> <img id="ans_a_image" src="https://softdeals.in/admin/Image/Products/default.png" width="125px" style="margin-bottom: 10px;" alt=""><button type="button"  class="upload btn btn-block btn-warning" id="ans_a_btn">1st ans</button></div>
+        <div class="image"> <img id="ans_b_image" src="https://softdeals.in/admin/Image/Products/default.png" width="125px" style="margin-bottom: 10px;" alt=""><button type="button"  class="upload btn btn-block btn-warning" id="ans_b_btn">2nd ans</button></div>
+        <div class="image"> <img id="ans_c_image" src="https://softdeals.in/admin/Image/Products/default.png" width="125px" style="margin-bottom: 10px;" alt=""><button type="button"  class="upload btn btn-block btn-warning" id="ans_c_btn">3rd ans</button></div>
+        <div class="image"> <img id="ans_d_image" src="https://softdeals.in/admin/Image/Products/default.png" width="125px" style="margin-bottom: 10px;" alt=""><button  type="button" class="upload btn btn-block btn-warning" id="ans_d_btn">4th ans</button></div>
+        <div class="image"> <img id="ans_e_image" src="https://softdeals.in/admin/Image/Products/default.png" width="125px" style="margin-bottom: 10px;" alt=""><button type="button"  class="upload btn btn-block btn-warning" id="ans_e_btn">5th ans</button></div>
+        <div class="image"> <img id="ans_f_image" src="https://softdeals.in/admin/Image/Products/default.png" width="125px" style="margin-bottom: 10px;" alt=""><button  type="button" class="upload btn btn-block btn-warning" id="ans_f_btn">6th ans</button></div>
+        <div class="image"> <img id="ans_g_image" src="https://softdeals.in/admin/Image/Products/default.png" width="125px" style="margin-bottom: 10px;" alt=""><button type="button"  class="upload btn btn-block btn-warning" id="ans_g_btn">7th ans</button></div>
+        <div class="image"> <img id="ans_h_image" src="https://softdeals.in/admin/Image/Products/default.png" width="125px" style="margin-bottom: 10px;" alt=""><button type="button"  class="upload btn btn-block btn-warning" id="ans_h_btn">8th ans</button></div>
+-->
+      </center>
+      <textarea placeholder=" Answer Explanation" name="ans_exp" type="text" class="form-control"></textarea>
+      <center>
+        <div style="margin:10px;">
+          <div class="btn-group btn-group-toggle" data-toggle="buttons" role="group" aria-label="Basic example">
+            <label class="btn btn-primary ">
+              <input type="checkbox" name="lang_en" autocomplete="off"> English
+            </label>
+            <label class="btn btn-primary ">
+              <input type="checkbox" name="lang_ar" autocomplete="off"> Arabic
+            </label>
+          </div>
+        </div>
+      </center>
+
+      <center>
+        <div style="margin:10px;">
+          <div class="btn-group  btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-primary ">
+              <input type="radio" name="quiz_type" value="iq" autocomplete="off"> IQ
+            </label>
+            <label class="btn btn-primary ">
+              <input type="radio" name="quiz_type" value="math" autocomplete="off"> Math
+            </label>
+            <label class="btn btn-primary ">
+              <input type="radio" name="quiz_type" value="science" autocomplete="off"> Science
+            </label>
+            <label class="btn btn-primary ">
+              <input type="radio" name="quiz_type" value="english" autocomplete="off"> English
+            </label>
+          </div>
+      </center>
+
+      <button type="submit" class="btn btn-block btn-danger">Submit</button>
+    </form>
+
+
+  </div>
+  <script>
+    function question_img_upload(){
+      var file=$('#question_img')[0];
+      $('#question_image')[0].src=window.URL.createObjectURL(file.files[0]);
+      var reader = new FileReader();
+      reader.onload = function(){
+        var dataURL = reader.result;
+        var output = document.getElementById('question_base64');
+        output.value = dataURL;
+      }
+        reader.readAsDataURL(file.files[0]);
+    }
+    function answer_img_upload(){
+      var file=$('#answer_img')[0];
+      $('#answer_image')[0].src=window.URL.createObjectURL(file.files[0]);
+      var reader = new FileReader();
+      reader.onload = function(){
+        var dataURL = reader.result;
+        var output = document.getElementById('answer_base64');
+        output.value = dataURL;
+      }
+        reader.readAsDataURL(file.files[0]);
+    }
+
+    function ans_a_img_upload(){
+        var file=$('#ans_a_img')[0];
+      $('#ans_a_image')[0].src=window.URL.createObjectURL(file.files[0]);
+      var reader = new FileReader();
+      reader.onload = function(){
+        var dataURL = reader.result;
+        var output = document.getElementById('ans_a_base64');
+        output.value = dataURL;
+      }
+        reader.readAsDataURL(file.files[0]);
+    }
+    function ans_b_img_upload(){
+        var file=$('#ans_b_img')[0];
+      $('#ans_b_image')[0].src=window.URL.createObjectURL(file.files[0]);
+      var reader = new FileReader();
+      reader.onload = function(){
+        var dataURL = reader.result;
+        var output = document.getElementById('ans_b_base64');
+        output.value = dataURL;
+      }
+        reader.readAsDataURL(file.files[0]);
+    }
+    function ans_c_img_upload(){
+        var file=$('#ans_c_img')[0];
+      $('#ans_c_image')[0].src=window.URL.createObjectURL(file.files[0]);
+      var reader = new FileReader();
+      reader.onload = function(){
+        var dataURL = reader.result;
+        var output = document.getElementById('ans_c_base64');
+        output.value = dataURL;
+      }
+        reader.readAsDataURL(file.files[0]);
+    }
+    function ans_d_img_upload(){
+        var file=$('#ans_d_img')[0];
+      $('#ans_d_image')[0].src=window.URL.createObjectURL(file.files[0]);
+      var reader = new FileReader();
+      reader.onload = function(){
+        var dataURL = reader.result;
+        var output = document.getElementById('ans_d_base64');
+        output.value = dataURL;
+      }
+        reader.readAsDataURL(file.files[0]);
+    }
+    function ans_e_img_upload(){
+        var file=$('#ans_e_img')[0];
+      $('#ans_e_image')[0].src=window.URL.createObjectURL(file.files[0]);
+      var reader = new FileReader();
+      reader.onload = function(){
+        var dataURL = reader.result;
+        var output = document.getElementById('ans_e_base64');
+        output.value = dataURL;
+      }
+        reader.readAsDataURL(file.files[0]);
+    }
+    function ans_f_img_upload(){
+        var file=$('#ans_f_img')[0];
+      $('#ans_f_image')[0].src=window.URL.createObjectURL(file.files[0]);
+      var reader = new FileReader();
+      reader.onload = function(){
+        var dataURL = reader.result;
+        var output = document.getElementById('ans_f_base64');
+        output.value = dataURL;
+      }
+        reader.readAsDataURL(file.files[0]);
+    }
+    function ans_g_img_upload(){
+        var file=$('#ans_g_img')[0];
+      $('#ans_g_image')[0].src=window.URL.createObjectURL(file.files[0]);
+      var reader = new FileReader();
+      reader.onload = function(){
+        var dataURL = reader.result;
+        var output = document.getElementById('ans_g_base64');
+        output.value = dataURL;
+      }
+        reader.readAsDataURL(file.files[0]);
+    }
+    function ans_h_img_upload(){
+        var file=$('#ans_h_img')[0];
+      $('#ans_h_image')[0].src=window.URL.createObjectURL(file.files[0]);
+      var reader = new FileReader();
+      reader.onload = function(){
+        var dataURL = reader.result;
+        var output = document.getElementById('ans_h_base64');
+        output.value = dataURL;
+      }
+        reader.readAsDataURL(file.files[0]);
+    }
+        $('#question_img_btn').bind('click', function () {
+                $('#question_img').click();
+        })
+        $('#answer_img_btn').bind('click', function () {
+                $('#answer_img').click();
+        })
+        $('#ans_a_btn').bind('click', function () {
+                $('#ans_a_img').click();
+        })
+        $('#ans_b_btn').bind('click', function () {
+                $('#ans_b_img').click();
+        })
+        $('#ans_c_btn').bind('click', function () {
+                $('#ans_c_img').click();
+        })
+        $('#ans_d_btn').bind('click', function () {
+                $('#ans_d_img').click();
+        })
+        $('#ans_e_btn').bind('click', function () {
+                $('#ans_e_img').click();
+        })
+        $('#ans_f_btn').bind('click', function () {
+                $('#ans_f_img').click();
+        })
+        $('#ans_g_btn').bind('click', function () {
+                $('#ans_g_img').click();
+        })
+        $('#ans_h_btn').bind('click', function () {
+                $('#ans_h_img').click();
+        });
+        <%if (typeof err!='undefined') {%>
+
+        <%}%>
+</script>
+
+  <!-- CREATE TABLE math_quiz (
+
+
+
+
+question_lang TEXT NOT NULL,
+ans_num INT NOT NULL,
+answer TEXT NOT NULL,
+); -->
+
+
+  <%include partials/foot.ejs%>
+  <%include partials/footer.ejs%>

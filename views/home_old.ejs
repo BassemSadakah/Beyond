@@ -1,0 +1,55 @@
+<% include partials/header.ejs %>
+<%if (typeof signed == 'undefined'){%>
+<% include partials/navbar.ejs %>
+<%}else{%>
+<% include partials/signed/navbar.ejs %>
+<%}%>
+
+<style media="screen">
+  body{
+    height: 100%;
+
+  }
+  html{
+    height: 100%;
+ 
+  }
+  #header_div{
+    margin-bottom: 0 !important;
+    height: 100%;
+    color: white;
+    text-align: center;
+            background: url('skull.png'),linear-gradient(to right, #524e47, #807b72, #524e47) ;
+            
+            /* background: url('skull.png'),linear-gradient(to right, #24243e, #302b63, #0f0c29) ; */
+
+  }
+  h1{
+    font-weight: 700 !important;
+  }
+  #header_div{
+    font-family: Righteous
+
+  }
+</style>
+    <div class="jumbotron jumbotron-fluid" id="header_div" >
+      <h1 id='stem_logo' class="animated fadeInLeft" style="font-size:9vw;text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2); font-weight: 800;">STEM OVERFLOW</h1>
+      <h1 class="Roboto built" style="margin:50px 0;text-align:center;font-weight: 100;">BUILT FOR STEM SEEKERS</h1>
+          
+           <center>
+             <a href="signup"><button type="button" class="btn btn-light btn-lg " style="color: #8d8880;text-shadow:0.5px 0.5px 2px rgba(0, 0, 0, 0.2); ">Register Now</button></a>
+          <div class="" style="margin:10px;">
+            <a href="/auth/facebook" class="fb connect">Continue with Facebook</a>
+          </div>
+
+            <small>Already a user <br> <a href="signin"> <button class="btn btn-light btn-sm" style="color: #8d8880">Sign in</button></a></small>
+      
+          <br>
+
+    
+            
+            
+          </center>
+        </div>
+<% include partials/foot.ejs %>
+<% include partials/footer.ejs %>

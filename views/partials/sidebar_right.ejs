@@ -1,0 +1,124 @@
+<style>
+    #rsidebar {
+        width: 40%;
+        max-width: 400px;
+        background: rgb(66, 80, 88);
+        height: 100%;
+        height: 950px;
+        float: right;
+    }
+
+    #rarrow_container {
+        width: 40px;
+        height: 40px;
+        border-bottom-left-radius: 8px;
+        border-top-left-radius: 8px;
+        background: rgb(0, 112, 186);
+        position: absolute;
+        top: 10%;
+        right: 0;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+    }
+
+    #rarrow_container:hover {
+        cursor: pointer;
+    }
+
+    #rback_sidebar {
+        position: absolute;
+        width: 100%;
+        height: 40px
+    }
+
+    #rback_sidebar:hover {
+        cursor: pointer;
+    }
+</style>
+<style>
+    .rarrow {
+        position: absolute;
+        top: 50%;
+    }
+
+    .rarrow span {
+        display: block;
+        width: 15px;
+        height: 15px;
+        border-bottom: 3px solid rgb(254, 255, 255);
+        border-right: 3px solid rgb(255, 255, 255);
+        transform: rotate(45deg);
+        margin: -10px;
+        animation: animate 3s infinite;
+        }
+
+    .rarrow span:nth-child(2) {
+        animation-delay: -0.2s;
+    }
+
+    .rarrow span:nth-child(3) {
+        animation-delay: -0.4s;
+    }
+
+    @keyframes animate {
+        0% {
+            opacity: 0;
+            transform: rotate(45deg) translate(-20px, -20px);
+        }
+
+        50% {
+            opacity: 1;
+        }
+
+        100% {
+            opacity: 0;
+            transform: rotate(45deg) translate(20px, 20px);
+        }
+    }
+</style>
+<div id="rsidebar" class="animated" hidden>
+
+    <div id="rback_sidebar" style="border-bottom:1px solid white;">
+        <div class="rarrow" style="transform: rotate(-90deg);left: 50%;top: 20px;">
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+</div>
+
+</div>
+<div id="rarrow_container" ">
+    <div class=" rarrow" style="transform: rotate(90deg)">
+    <span></span>
+    <span></span>
+</div>
+</div>
+<script>
+    $('#rarrow_container').on('click', function () {
+
+        $('#rsidebar').prop('hidden', true)
+        $('#rsidebar').removeClass('fadeOutRight')
+
+        $('#rarrow_container').prop('hidden', true)
+
+        setTimeout(() => {
+            $('#rsidebar').addClass('fadeInRight')
+            $('#rsidebar').prop('hidden', false)
+        }, 100);
+        
+        
+        
+    })
+    
+    
+    $('#rback_sidebar').on('click', function () {
+        
+        $('#rsidebar').removeClass('fadeInRight')
+        setTimeout(() => {
+            $('#rsidebar').addClass('fadeOutRight');
+            $('#rarrow_container').prop('hidden', false)
+            $('#rsidebar').prop('hidden', true);
+        }, 100);
+
+    })
+</script>

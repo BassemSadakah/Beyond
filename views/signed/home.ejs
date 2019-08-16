@@ -1,0 +1,48 @@
+<%include ../partials/header.ejs%>
+<%include ../partials/signed/navbar.ejs%>
+<link rel="stylesheet" href="css/home_signed.css?rand=<%=Math.random()%>">
+
+
+
+<!-- ########################################################################################33 -->
+<div class="container xxxxx">
+<%include ../partials/signed/post_and_earn.ejs%>
+<style>
+
+#side_bar_m button{
+position: fixed !important;
+right: 0 !important;
+height: 100% !important;
+width: 20px !important;
+padding: 0 !important;
+top:40px;
+font-family: Righteous;
+z-index: 5;
+
+}
+#dashboard{
+  transform: rotate(-90deg)
+}
+
+</style>
+
+
+
+<div id="side_bar_m">
+  <button class="btn btn-success"><div id="dashboard" style=" white-space: nowrap;  overflow: unset;">Show Dashboard</div></button>
+
+</div>
+    <div class="side_bar animated fadeOutRight">
+
+      <div id="score"><p> </p>
+      </div>
+    <div class="side_bar_in">
+
+</div>
+
+
+    </div>
+<!-- ############################################################################# -->
+
+<%include ../partials/footer.ejs%>
+<script src="js/home_signed.js?rand=<%=Math.random()%>" charset="utf-8"></script>

@@ -1,0 +1,68 @@
+<nav  id="navbar" class="navbar navbar-expand-md navbar-dark " <!-- change it to navbar-expand-sm -->
+
+  <a href="/" class="navbar-brand ">STEM Overflow<span></span></a>
+
+  <button type="button" name="button" class="navbar-toggler">
+    <span class="navbar-toggler-icon" data-toggle="collapse" data-target="#navbar_div"></span>
+  </button>
+
+  <div id="navbar_div" class="collapse navbar-collapse">
+    <ul class="nav navbar-nav mr-auto">
+
+      <li class="nav-item">
+        <a href="/questions" class="nav-link">My Questions</a>
+      </li>
+
+      <li class="nav-item">
+        <a href="/gallery" class="nav-link">Gallery</a>
+      </li>
+
+      <li class="nav-item">
+        <a href="about" class="nav-link">About STEM</a>
+      </li>
+
+    </ul>
+    <ul class="navbar-nav">
+      <a href="/upload"><button class="btn btn-warning" style="margin-right: 30px ; color: rgba(0, 0, 0, 0.6);">Post a question</button></a>
+      <li class="nav-item nav-link" style="color: white !important;margin-right: 5px;">
+          Hi , <%=data.first_name%>
+        </li>
+        <%if(data.profile_pic){%>
+          <img src="<%=data.profile_pic%>" onerror="this.src='https://i2.wp.com/www.kab.ac.ug/wp-content/uploads/2017/09/kabale-university-default-profile.png?fit=160%2C160'" id="profile_img">
+          <%}else{%>
+            <img src="https://i2.wp.com/www.kab.ac.ug/wp-content/uploads/2017/09/kabale-university-default-profile.png?fit=160%2C160" id="profile_img">
+            <%}%>
+            <a href="logout"> <button  type="button" class="btn btn-outline-light" style='border-radius:20px; margin:0 0 0 10px;'>log out</button></a>
+          </ul>
+        </div>
+        <%include notification.ejs%>
+
+
+</nav>
+<div id="score" style="
+position: fixed;
+font-family:Righteous;
+color:white;
+width:150px;
+left: calc(50% - 75px);
+background:#077ed8;
+text-align: center;
+line-height: 30px;
+z-index: 6;
+border-radius: 0 0 90px 90px;
+">Score : <span class="animated bounce infinite" id="score_num"><%=data.user_points%></span></div>
+<script>
+  var nav_collapsed=0;
+  $('[data-target="#navbar_div"]').on('click',function(){
+    if(!nav_collapsed){
+      $('.notification').css({display:'none'})
+      $('.navbar-nav').eq(1).css({display:'none'})
+      nav_collapsed=1;
+    }else{
+      $('.notification').css({display:'block'})
+      $('.navbar-nav').eq(1).css({display:'none'})
+      nav_collapsed=0;
+    }
+  })
+
+  </script>

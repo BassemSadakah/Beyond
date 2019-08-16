@@ -1,0 +1,59 @@
+<!--
+1-Footer (like -- comments -- report)
+2-Previous comments list
+3-Show more
+4-Add a comment
+-->
+<link rel="stylesheet" href="css/signed/comments.css">
+
+<!-- Footer -->
+
+<div class="item_footer">
+  <hr class="hr_footer">
+  <div class="row ">
+
+    <div class="col-4 d-flex justify-content-center like icons_divs">
+      <i class="fas fa-heart heart_icon"></i>
+      <span class="like_text">Like</span>
+    </div>
+
+
+    <div class="col-4 d-flex justify-content-center comments icons_divs">
+      Comments
+    </div>
+    <div class="col-4 d-flex justify-content-center report icons_divs">
+      <i class="fas fa-exclamation-triangle report_icon"></i>
+      <span class="report_text">Report</span>
+    </div>
+  </div>
+
+
+
+  <div class="footer_append">
+    <hr style="margin-top: 0;">
+    <div class="comments">
+      <%for (var x=1;x<20;x++){%>
+      <div class="user_comment">
+        <img class="comment_user_img" src="img/seekers.png" alt=""> <a href="">Fady Sadakah</a>
+        <div class="comment_text">
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Praesentium, error eligendi.
+          Dolore asperiores maxime delectus autem, officia perspiciatis quo laboriosam nihil perferendis sed voluptates
+        
+        </div>
+      </div>
+      <hr style="">
+      <%}%>
+      <div class="comment_input_div">
+
+        <form action="/add_comment" method="POST">
+          <input type="text" hidden name="question_id">
+          <textarea name="comment" placeholder="Write a comment..." class="comment_input" rows="1"></textarea>
+          <button type="submit" class="btn btn-warning btn-sm post"><i class="fas fa-paper-plane"></i></button>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://rawgit.com/jackmoore/autosize/master/dist/autosize.min.js"></script>
+<script src="js/comments.js"></script>

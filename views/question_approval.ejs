@@ -1,0 +1,228 @@
+<%include partials/header.ejs%>
+<%include partials/navbar.ejs%>
+<link rel="stylesheet" href="css/home_signed.css?rand=<%=Math.random()%>">
+
+<div class="container approval_div">
+
+</div>
+
+
+<%include partials/footer.ejs%>
+
+<script type="text/javascript">
+var stop=0;
+var first_time=1;
+var offset=0;
+var done=0;
+
+  function get_questions(){
+    $('.approval_div').append(`
+      <div class="loading">
+        <center>
+          <div style="margin:20px;">
+          <small style="text-align:center;font-weight:100;opacity:0.7;">Loading...</small>
+        <!--  <br><img style="width:15%" src="img/loading.gif"> -->
+        </center>
+      </div>
+  `);
+  $.ajax({
+    type: "GET",
+    url: "/api/approval/get_questions?offset="+offset,
+    success: function(data) {
+      console.log(data);
+      $('.loading').remove();
+      console.log(data);
+      if(data.length==0){
+        done=1;
+      }
+      for (var i = 0; i < data.length; i++) {
+        var choices = '';
+        var array = [data[i].ans_a, data[i].ans_b, data[i].ans_c, data[i].ans_d, data[i].ans_e, data[i].ans_f, data[i].ans_g, data[i].ans_h];
+        for (var x = 0; x < data[i].ans_num; x++) {
+          var letter = array[x];
+          choices += `<div class="answer answer_border answer_hover hide" value=''>` + escapeHtml(letter) + `<div id="background"></div></div>`;
+        }
+        $('.approval_div').append(`
+    <div class="item">
+      <div class="item_nav_top">
+        <div class="nav_float_right">
+          <div class="nav_close"></div>
+          <div class="nav_minimize"></div>
+          <div class="nav_idk"></div>
+        </div>
+        <div class="nav_float_left">
+          <img
+            src="https://i2.wp.com/www.kab.ac.ug/wp-content/uploads/2017/09/kabale-university-default-profile.png?fit=160%2C160">
+          <small>uploaded by ` + escapeHtml(data[i].first_name) + ' ' + ((data[i].last_name) ? escapeHtml(data[i].last_name) : '') + `
+          </small>
+        </div>
+      </div>
+
+      <div class="item_question">` +
+          ((data[i].question_img) ? `<div class="item_question_img"> <img src="` + data[i].question_img + `"> </div>  <hr>` : '') +
+
+          `<p id="question_text" style="font-family: Righteous;color: rgba(0, 0, 0, 0.5);margin-top:10px;margin-left: 10px">` +
+          ((data[i].question) ? escapeHtml(data[i].question) : '') + `</p>
+        <hr>
+      </div>` +
+
+          ((data[i].answer_img) ? `<div class="item_answer">  <div class="item_answer_img"> <img src="` + (data[i].answer_img) + `">   </div>  </div>  <hr>` : '') +
+          `
+      <div id="choices" class="choices_` + data[i].id + `">` +
+
+          choices
+
+          +
+          ` </div>
+          <center>
+            <button id="" style="height: 38px;" class="btn btn-danger" onclick="disapprove(` + data[i].id + `,this)">Disapprove</button>
+            <button style="height: 38px;" class="btn btn-primary" hidden onclick="undo_approve(` + data[i].id + `,this)">Undo</button>
+            <button style="height: 38px; margin-left:40px" class="btn btn-success" onclick="approve(` + data[i].id + `,this)">Approve</button>
+
+      </center>
+    </div>
+
+          `);
+          console.log(data[i]);
+          if(data[i].answer){
+            $('.choices_'+data[i].id+' .answer').eq(data[i].answer-1).css("background-color", "rgb(196, 255, 192)");
+          }
+      }
+
+
+      $('.answer').on('click', function() {
+        $('.answer').removeClass('answer_active');
+        $('.answer').addClass('answer_border');
+        $(this).addClass('answer_active');
+        $(this).removeClass('answer_border');
+        $(this).parent().next().children().attr('disabled', false);
+
+      });
+      if(!first_time){
+        stop=0;
+      }else{
+        first_time=0;
+      }
+    },
+    error: function(jqXHR, textStatus, err) {
+      // alert('text status ' + textStatus + ', err ' + err) //Remove in production
+    }
+  });}
+  get_questions();
+  window.onscroll = function() {
+    var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    var scrolled = (winScroll / height) * 100;
+    if(scrolled>90 && !stop && !done){
+      console.log('fffffff');
+      stop=1;
+      offset++;
+      get_questions();
+    }
+    console.log(scrolled);
+  };
+
+  function approve(question_id,btn){
+    // $(btn).attr('disabled', true);
+    $('.choices_'+question_id).find('button').eq(0).attr('disabled', true);
+    $('.choices_'+question_id).find('button').eq(2).attr('disabled', true);
+    $(btn).html(' <span class="spinner-border text-light" style="height:20px;width:20px;" role="status"></span>')
+    $.ajax({
+      type: "POST",
+      url: "/api/approval/approve_question",
+      data: {
+        question_id: question_id,
+      },
+      success: function(data) {
+        if(!data.err){
+          $('.choices_'+question_id).parent().find('button').eq(0).attr('hidden', true);
+          $('.choices_'+question_id).parent().find('button').eq(2).attr('hidden', true);
+          $('.choices_'+question_id).parent().find('button').eq(1).attr('hidden', false);
+          $(btn).html('Approve');
+        }else{
+          $(btn).html('Approve');
+          $('.choices_'+question_id).find('button').eq(0).attr('disabled', false);
+          $('.choices_'+question_id).find('button').eq(2).attr('disabled', false);
+        }
+
+      },
+      error: function(jqXHR, textStatus, err) {
+        $(btn).html('Approve');
+        // $(btn).attr('disabled', false)
+        $('.choices_'+question_id).find('button').eq(0).attr('disabled', false);
+        $('.choices_'+question_id).find('button').eq(2).attr('disabled', false);
+
+        // alert('text status ' + textStatus + ', err ' + err) //Remove in production
+      }
+    });
+  }
+
+
+  function disapprove(question_id,btn){
+    $('.choices_'+question_id).find('button').eq(0).attr('disabled', true);
+    $('.choices_'+question_id).find('button').eq(2).attr('disabled', true);
+    $(btn).html(' <span class="spinner-border text-light" style="height:20px;width:20px;" role="status"></span>')
+    $.ajax({
+      type: "POST",
+      url: "/api/approval/disapprove_question",
+      data: {
+        question_id: question_id,
+      },
+      success: function(data) {
+        if(!data.err){
+          $('.choices_'+question_id).parent().find('button').eq(0).attr('hidden', true);
+          $('.choices_'+question_id).parent().find('button').eq(2).attr('hidden', true);
+          $('.choices_'+question_id).parent().find('button').eq(1).attr('hidden', false);
+          $(btn).html('Disapprove');
+        }else{
+          $(btn).html('Disapprove');
+          $('.choices_'+question_id).find('button').eq(0).attr('disabled', false);
+          $('.choices_'+question_id).find('button').eq(2).attr('disabled', false);
+        }
+
+      },
+      error: function(jqXHR, textStatus, err) {
+        $(btn).html('Disapprove');
+        // $(btn).attr('disabled', false)
+        $('.choices_'+question_id).find('button').eq(0).attr('disabled', false);
+        $('.choices_'+question_id).find('button').eq(2).attr('disabled', false);
+
+        // alert('text status ' + textStatus + ', err ' + err) //Remove in production
+      }
+    });
+  }
+
+  function undo_approve(question_id,btn){
+    $('.choices_'+question_id).find('button').eq(1).attr('disabled', true);
+    $(btn).html(' <span class="spinner-border text-light" style="height:20px;width:20px;" role="status"></span>')
+    $.ajax({
+      type: "POST",
+      url: "/api/approval/undo_approve_question",
+      data: {
+        question_id: question_id,
+      },
+      success: function(data) {
+        if(!data.err){
+          $('.choices_'+question_id).parent().find('button').eq(0).attr('hidden', false);
+          $('.choices_'+question_id).parent().find('button').eq(2).attr('hidden', false);
+          $('.choices_'+question_id).parent().find('button').eq(1).attr('hidden', true);
+          $(btn).html('Undo');
+          // $(btn).attr('hidden', true);
+        }else{
+          $(btn).html('Undo');
+          $('.choices_'+question_id).find('button').eq(1).attr('disabled', false);
+        }
+      },
+      error: function(jqXHR, textStatus, err) {
+        $(btn).html('Undo');
+        $('.choices_'+question_id).find('button').eq(1).attr('disabled', false);
+        // alert('text status ' + textStatus + ', err ' + err) //Remove in production
+      }
+    });
+  }
+
+
+
+
+</script>
+<%include partials/foot.ejs%>

@@ -1,0 +1,121 @@
+<style>
+    #sidebar {
+        width: 40%;
+        max-width: 400px;
+        background: rgb(66, 80, 88);
+        height: 100%;
+        height: 950px;
+    }
+
+    #arrow_container {
+        width: 40px;
+        height: 40px;
+        border-bottom-right-radius: 8px;
+        border-top-right-radius: 8px;
+        background: rgb(0, 112, 186);
+        position: absolute;
+        top: 10%;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1)
+    }
+
+    #arrow_container:hover {
+        cursor: pointer;
+    }
+
+    #back_sidebar {
+        position: absolute;
+        width: 100%;
+        height: 40px
+    }
+
+    #back_sidebar:hover {
+        cursor: pointer;
+    }
+</style>
+<style>
+    .arrow {
+        position: absolute;
+        top: 43%;
+    }
+
+    .arrow span {
+        display: block;
+        width: 15px;
+        height: 15px;
+        border-bottom: 3px solid rgb(254, 255, 255);
+        border-right: 3px solid rgb(255, 255, 255);
+        transform: rotate(45deg);
+        margin: -10px;
+        animation: animate 3s infinite;
+    }
+
+    .arrow span:nth-child(2) {
+        animation-delay: -0.2s;
+    }
+
+    .arrow span:nth-child(3) {
+        animation-delay: -0.4s;
+    }
+
+    @keyframes animate {
+        0% {
+            opacity: 0;
+            transform: rotate(45deg) translate(-20px, -20px);
+        }
+
+        50% {
+            opacity: 1;
+        }
+
+        100% {
+            opacity: 0;
+            transform: rotate(45deg) translate(20px, 20px);
+        }
+    }
+</style>
+<div id="sidebar" class="animated" hidden>
+
+    <div id="back_sidebar" style="border-bottom:1px solid white;">
+        <div class="arrow" style="transform: rotate(90deg);left: 50%;top: 20px;">
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+</div>
+
+</div>
+<div id="arrow_container" ">
+    <div class=" arrow" style="transform: rotate(-90deg)">
+    <span></span>
+    <span></span>
+</div>
+</div>
+<script>
+    $('#arrow_container').on('click', function () {
+
+        $('#sidebar').prop('hidden', true)
+        $('#sidebar').removeClass('fadeOutLeft')
+
+        $('#arrow_container').prop('hidden', true)
+
+        setTimeout(() => {
+            $('#sidebar').addClass('fadeInLeft')
+            $('#sidebar').prop('hidden', false);
+            $('#sidebar').prop('hidden', false)
+        }, 100);
+
+
+
+    })
+
+
+    $('#back_sidebar').on('click', function () {
+
+        $('#sidebar').removeClass('fadeInLeft')
+        setTimeout(() => {
+            $('#sidebar').addClass('fadeOutLeft');
+            $('#arrow_container').prop('hidden', false)
+        }, 100);
+
+    })
+</script>

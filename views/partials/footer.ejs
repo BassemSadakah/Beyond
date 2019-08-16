@@ -1,0 +1,29 @@
+</body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+<script type="text/javascript" src="js/lib/bootstrap.js?rand=<%=Math.random()%>"> </script>
+
+<script>
+    if ($(window).width() > 974) {
+        $('.side_bar').removeClass('fadeInRight fadeOutRight');
+
+    }
+    $('#side_bar_m').on('click', function () {
+            $('.side_bar').toggleClass('fadeInRight fadeOutRight');
+            event.stopImmediatePropagation();
+
+        })
+        $('body').on('click',function() {
+            // $("[data-toggle=popover]").popover('hide')
+
+                    if ($(window).width() <= 974) {
+
+            $('.side_bar').addClass('fadeOutRight');
+            $('.side_bar').removeClass('fadeInRight ');
+            }});
+</script>
+
+
+</html>

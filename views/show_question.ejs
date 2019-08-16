@@ -1,0 +1,50 @@
+<%include partials/header.ejs%>
+<link rel="stylesheet" href="css/home_signed.css?rand=<%=Math.random()%>">
+<%include partials/navbar.ejs%>
+<style media="screen">
+  .progress {
+    background: white;
+    border: 0px solid rgba(245, 245, 245, 1);
+    border-radius: 35px;
+    height: 45px;
+    margin: 15px 0px;
+  }
+
+  .progress-bar-custom {
+    background: rgba(66, 139, 202, 1);
+    margin: 0px;
+    padding: 0px !important;
+  }
+
+  .answer {
+    height: 100%;
+    /* background: linear-gradient(90deg, #FFC0CB 34%, #FFFFFF 34%); */
+  }
+</style>
+<div class="container xxxxx">
+  <div class="item">
+      <div class="item_nav_top">
+        <div class="nav_float_right">
+          <div class="nav_close"></div>
+          <div class="nav_minimize"></div>
+          <div class="nav_idk"></div>
+        </div>
+        <div class="nav_float_left">
+          <img src="/img/default_profile_pic.png">
+          <small>uploaded by Bassem Sadakah
+          </small>
+        </div>
+      </div>
+
+      <div class="item_question"><p id="question_text" style="font-family: Righteous;color: rgba(0, 0, 0, 0.5);margin-top:10px;margin-left: 10px">TST1</p>
+        <hr>
+      </div>
+      <div id="choices" class="choices_1"><div class="answer answer_border answer_hover hide" value="1">1<div id="background"></div></div><div class="answer answer_border answer_hover hide" value="2">2<div id="background"></div></div><div class="answer answer_border answer_hover hide" value="3">3<div id="background"></div></div><div class="answer answer_border answer_hover hide" value="4">4<div id="background"></div></div> </div>
+          <center>
+            <button disabled="" style="height: 38px;width:76px" class="btn btn-success" onclick="submit_answer(1,this)">Submit</button>
+
+      </center>
+    </div>
+</div>
+<%include partials/foot.ejs%>
+<%include partials/footer.ejs%>

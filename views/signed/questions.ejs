@@ -1,0 +1,178 @@
+<%include ../partials/header.ejs%>
+<link rel="stylesheet" href="css/home_signed.css?rand=<%=Math.random()%>">
+<%include ../partials/signed/navbar.ejs%>
+<style media="screen">
+  .progress {
+    background: white;
+    border: 0px solid rgba(245, 245, 245, 1);
+    border-radius: 35px;
+    height: 45px;
+    margin: 15px 0px;
+  }
+
+  .progress-bar-custom {
+    background: rgba(66, 139, 202, 1);
+    margin: 0px;
+    padding: 0px !important;
+  }
+
+  .answer {
+    height: 100%;
+    /* background: linear-gradient(90deg, #FFC0CB 34%, #FFFFFF 34%); */
+  }
+  .xxxxx{
+    margin-top:45px;
+  }
+</style>
+
+<div class="container xxxxx">
+
+</div>
+<script type="text/javascript">
+  var stop = 0;
+  var first_time = 1;
+  var offset = 0;
+  var done = 0;
+
+  function get_questions() {
+    $('.xxxxx').append(`
+      <div class="loading">
+        <center>
+          <div style="margin:20px;">
+          <small style="text-align:center;font-weight:100;opacity:0.7;">Loading...</small>
+        <!--  <br><img style="width:15%" src="img/loading.gif"> -->
+        </center>
+      </div>
+  `);
+    $.ajax({
+      type: "GET",
+      url: "/api/user_questions?offset=" + offset,
+      success: function(data) {
+        console.log(data);
+        $('.loading').remove();
+        console.log(data);
+        if (data.length == 0) {
+          done = 1;
+        }
+        for (var i = 0; i < data.length; i++) {
+          var choices = '';
+          var array = [data[i].ans_a, data[i].ans_b, data[i].ans_c, data[i].ans_d, data[i].ans_e, data[i].ans_f, data[i].ans_g, data[i].ans_h];
+          for (var x = 0; x < data[i].ans_num; x++) {
+            var letter = array[x];
+            choices += `
+          <div class="answer answer_border  hide" value=''>` + escapeHtml(letter) + `<div id="background"></div></div>
+        `;
+          }
+          $('.xxxxx').append(`
+    <div class="item">
+      <div class="item_nav_top">
+        <div class="nav_float_right">
+          <div class="nav_close"></div>
+          <div class="nav_minimize"></div>
+          <div class="nav_idk"></div>
+        </div>
+        <div class="nav_float_left">
+        <!--  <img
+            src="https://i2.wp.com/www.kab.ac.ug/wp-content/uploads/2017/09/kabale-university-default-profile.png?fit=160%2C160">
+          <small>uploaded by ` + (data[i].first_name) + ' ' + ((data[i].last_name) ? escapeHtml(data[i].last_name) : '') + `
+          </small> -->
+        </div>
+      </div>
+
+      <div class="item_question">` +
+            ((data[i].question_img) ? `<div class="item_question_img"> <img src="` + data[i].question_img + `"> </div>  <hr>` : '') +
+
+            `<p id="question_text" style="font-family: Righteous;color: rgba(0, 0, 0, 0.5);margin-top:10px;margin-left: 10px">` +
+            ((data[i].question) ? escapeHtml(data[i].question) : '') + `</p>
+        <hr>
+      </div>` +
+
+            ((data[i].answer_img) ? `<div class="item_answer">  <div class="item_answer_img"> <img src="` + (data[i].answer_img) + `">   </div>  </div>  <hr>` : '') +
+            `
+      <div id="choices" class="choices_` + data[i].id + `">` +
+
+            choices
+
+            +
+            ` </div>
+          <center>
+            <button style="height: 38px; padding-left:8px;" class="btn btn-primary" onclick="get_statistics(` + data[i].id + `,this)">Show Answers</button>
+
+      </center>
+    </div>
+
+          `);
+        }
+
+        // $('.answer').on('click', function() {
+        //   $('.answer').removeClass('answer_active');
+        //   $('.answer').addClass('answer_border');
+        //   $(this).addClass('answer_active');
+        //   $(this).removeClass('answer_border');
+        //   $(this).parent().next().children().attr('disabled', false);
+        // });
+        if (!first_time) {
+          stop = 0;
+        } else {
+          first_time = 0;
+        }
+      },
+      error: function(jqXHR, textStatus, err) {
+        // alert('text status ' + textStatus + ', err ' + err) //Remove in production
+      }
+    });
+  }
+  get_questions();
+  window.onscroll = function() {
+    var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    var scrolled = (winScroll / height) * 100;
+    if (scrolled > 90 && !stop && !done) {
+      console.log('fffffff');
+      stop = 1;
+      offset++;
+      get_questions();
+    }
+    console.log(scrolled);
+  };
+
+  function get_statistics(question_id, btn) {
+    $(btn).attr('disabled', true);
+    $(btn).html(' <span class="spinner-border text-light" style="height:20px;width:20px;" role="status"></span>')
+    $.ajax({
+      type: "POST",
+      url: "/api/get_statistics",
+      data: {
+        question_id: question_id,
+      },
+      success: function(data) {
+        if (!data.err) {
+          console.log(data);
+          for (var i = 0; i < $('.choices_' + question_id + ' .answer').length; i++) {
+            if(data.answers_percent [i]){
+            $('.choices_' + question_id + ' .answer').eq(i).css({
+              background: "linear-gradient(90deg, "+((data.answers_percent[i]>49)?'rgb(196, 255, 192)':(data.answers_percent[i]>24)?'#ade8ef':'#fff0b9')+' '+data.answers_percent[i]+"%, #FFFFFF "+(data.answers_percent[i])+"%)"
+            });
+          }
+        }
+        $('.choices_'+question_id).parent().children().children().eq(1).prepend('<center><small>Total answers: '+data.total_answers+'</small></center>')
+          $(btn).attr('hidden', true);
+        } else {
+          $(btn).html('Show Answers');
+          $(btn).attr('disabled', false)
+        }
+
+      },
+      error: function(jqXHR, textStatus, err) {
+        $(btn).html('Show Answers');
+        $(btn).attr('disabled', false)
+        // alert('text status ' + textStatus + ', err ' + err) //Remove in production
+      }
+    });
+  }
+</script>
+
+
+
+<%include ../partials/foot.ejs%>
+<%include ../partials/footer.ejs%>
