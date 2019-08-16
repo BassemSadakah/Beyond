@@ -244,18 +244,3 @@ function submit_answer(question_id, btn) {
     }
   });
 }
-
-function append_follow_us (){
-  $(".xxxxx").append(`
-<div class="item" style="font-family: Righteous;   bacskground:linear-gradient(to right, #e6d1de, #fffcdc);">    
-    <center>
-        <a href="https://www.facebook.com/StemOverflow" target="_blank">
-            <img style="margin-top:70px;margin-bottom:50px;" src="img/follow_fb.jpg"  alt="">
-        </a>
-        <iframe style="max-width:95%;" src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Fstemoverflow&width=450&layout=standard&action=like&size=large&show_faces=true&share=true&height=80&appId" width="450" height="80" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
-    </center>
-</div>
-</div>
-  `);
-  is_follow_us_fb_shown=true;
-}

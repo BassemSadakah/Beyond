@@ -41,8 +41,8 @@ global.client = new pg.Client(process.env.DATABASE_URL);
 client.connect();
 /*
 //ALTER TO ADD TIMESTAMP DEFAULT TO NOW() in questions, users_answers,users
-ALTER TABLE table ADD COLUMN time TIMESTAMP;
-ALTER TABLE table ALTER COLUMN time SET DEFAULT now();
+ALTER TABLE users ADD COLUMN time TIMESTAMP;
+ALTER TABLE users ALTER COLUMN time SET DEFAULT now();
 
 ALTER TABLE questions ADD COLUMN seen INT;
 ALTER TABLE questions ALTER COLUMN seen SET DEFAULT 0;
