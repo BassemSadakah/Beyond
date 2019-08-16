@@ -29,8 +29,8 @@ passport.serializeUser(function(user, done) {
 // });
 const FacebookStrategy = require('passport-facebook').Strategy;
 passport.use(new FacebookStrategy({
-  clientID: 'process.env.clientID',
-  clientSecret: 'process.env.clientSecret',
+  clientID: process.env.clientID,
+  clientSecret: process.env.clientSecret,
   callbackURL: 'https://beyond-project.herokuapp.com//auth/facebook/redirect',
   profileFields: ['id', 'emails', 'name', 'photos']
 }, (accessToken, refreshToken, profile, done) => {
@@ -63,6 +63,7 @@ CREATE TABLE sessions (
    session_id VARCHAR(100) UNIQUE NOT NULL, //changed to be not unique due to unknown bug
    exp_time VARCHAR(100) NOT NULL
 );
+
 
 
 CREATE TABLE questions (
