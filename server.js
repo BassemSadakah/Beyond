@@ -187,7 +187,7 @@ app.get('/admin/upload', function(req, res) {
   res.render('admin')
 });
 app.get('/simulations', function(req, res) {
-  res.render('simulations')
+  server.redirect.exec(req, res, 'signed/simulations', 'simulations', {}, {});
 });
 app.get('/home/signed', function(req, res) {
   res.render('signed/home')
