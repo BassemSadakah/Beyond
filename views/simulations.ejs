@@ -2,7 +2,6 @@
 <% include partials/navbar.ejs %>
 <style media="screen">
   .lesson_main {
-    height: 500px;
     background: white;
     margin-top: 20px;
     padding: 0px;
@@ -29,6 +28,7 @@
     padding-right: 20px;
     display: flex;
     flex-direction: row;
+    padding-left:10px;
     //border-bottom:1px solid gray;
   }
 
@@ -41,10 +41,13 @@
     //    border-left: 1px solid rgba(0, 0, 0, 0.1);
   }
 
-  i.fa-play-circle {
-    padding: 20px;
+  .fa-play-circle {
+    align-self:center;
+    padding: 10px;
     padding-right: 10px;
     font-size: 2.5rem;
+    transition:transform 400ms ease-in,color 400ms ease-in;
+
   }
 
   hr {
@@ -66,10 +69,15 @@
   .head_s{
     color:#31363c;
   }
+  .fa-play-circle:hover{
+    transform:rotate(0.34turn) scale(1.1);
+    color:green;
+  }
 
   .l_item:hover {
     cursor: pointer;
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(0, 0, 0, 0.05);
+
   }
 
   .head_s:hover {
