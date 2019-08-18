@@ -1,0 +1,103 @@
+<% include partials/header.ejs %>
+<% include partials/navbar.ejs %>
+<style media="screen">
+  .lesson_main {
+    height: 500px;
+    background: white;
+    margin-top: 20px;
+    padding: 0px;
+    border-radius: 10px;
+    width: 750px;
+    max-width: 90%;
+    box-shadow:0 0 15px rgba(0,0,0,0.2);
+  }
+
+  h4 {
+    padding-top: 10px;
+    padding-bottom: 5px;
+    font-family: righteous;
+    //color: #4a535c;
+    text-align: center;
+  }
+
+  li {
+    list-style: none;
+  }
+
+
+  .l_item {
+    padding-right: 20px;
+    display: flex;
+    flex-direction: row;
+    //border-bottom:1px solid gray;
+  }
+
+  .i_head {
+    width: 100%;
+    padding-top: 10px;
+    padding-left: 5px;
+    padding-bottom: 3px;
+    font-family: righteous;
+    //    border-left: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  i.fa-play-circle {
+    padding: 20px;
+    padding-right: 10px;
+    font-size: 2.5rem;
+  }
+
+  hr {
+    margin: 0px;
+  }
+
+  h3 {
+    font-size: 14px;
+    color: gray;
+  }
+
+  .hr_main {
+    border-top-color: rgba(0, 0, 0, 0.2);
+  }
+
+  .hr_sub {
+    padding: 3px;
+  }
+  .head_s{
+    color:#31363c;
+  }
+
+  .l_item:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+
+  .head_s:hover {
+    text-decoration: underline;
+  }
+</style>
+<div class="container lesson_main">
+
+
+  <h4>Solar System</h4>
+  <hr class='hr_main'>
+  <% for(var i=0;i<5;i++){%>
+  <div class="lesson_items">
+    <div class="l_item">
+      <i class="far fa-play-circle"></i>
+      <div class="i_head"><span class='head_s'>Solar System VR video</span>
+        <hr class='hr_sub'>
+        <h3>
+          Solar System Video showing the 8 planets of the Solar System orbiting the Sun. As we move out from Mercury, Venus, Earth and Mars, towards the gas </h3>
+      </div>
+    </div>
+    <hr class='hr_main'>
+  </div>
+    <%}%>
+
+
+</div>
+
+
+<%include partials/foot.ejs%>
+<% include partials/footer.ejs %>

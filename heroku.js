@@ -21,28 +21,34 @@ app.use(bodyParser.urlencoded({
   limit: '10mb',
   extended: true
 }));
-passport.serializeUser(function(user, done) {
-  done(null, user);
+
+app.get('/simulations', function(req, res) {
+  res.render('simulations')
 });
-// passport.deserializeUser(function(user, done) {
-//   done(null, user);
-// });
-const FacebookStrategy = require('passport-facebook').Strategy;
-passport.use(new FacebookStrategy({
-  clientID: process.env.clientID,
-  clientSecret: process.env.clientSecret,
-  callbackURL: 'https://beyond-project.herokuapp.com//auth/facebook/redirect',
-  profileFields: ['id', 'emails', 'name', 'photos']
-}, (accessToken, refreshToken, profile, done) => {
-  done(null, profile);
-  // console.log(profile);
-}));
-global.client = new pg.Client(process.env.DATABASE_URL);
+/*
+{
+ user: 'postgres',
+ password: 'root',
+ database: 'postgres',
+ port: 5432,
+ host: 'localhost',
+ ssl: false
+}
+*/
+
+global.client = new pg.Client({
+  user: 'postgres',
+  password: 'root',
+  database: 'postgres',
+  port: 5432,
+  host: 'localhost',
+  ssl: false
+});
 client.connect();
 /*
 //ALTER TO ADD TIMESTAMP DEFAULT TO NOW() in questions, users_answers,users
-ALTER TABLE users ADD COLUMN time TIMESTAMP;
-ALTER TABLE users ALTER COLUMN time SET DEFAULT now();
+ALTER TABLE mytable ADD COLUMN time TIMESTAMP;
+ALTER TABLE mytable ALTER COLUMN time SET DEFAULT now();
 
 ALTER TABLE questions ADD COLUMN seen INT;
 ALTER TABLE questions ALTER COLUMN seen SET DEFAULT 0;
@@ -63,7 +69,6 @@ CREATE TABLE sessions (
    session_id VARCHAR(100) UNIQUE NOT NULL, //changed to be not unique due to unknown bug
    exp_time VARCHAR(100) NOT NULL
 );
-
 
 
 CREATE TABLE questions (
@@ -122,7 +127,7 @@ seen INT DEFAULT 0 NOT NULL
 app.get('/', function(req, res) {
   server.redirect.exec(req, res, 'signed/home', 'home', {}, {}, 0, 0);
 });
-app.get('/admin', function(req, res) {
+app.get('/adnim/approval', function(req, res) {
   res.render('question_approval')
   // res.redirect('/')
 });
@@ -185,9 +190,6 @@ app.get('/admin', function(req, res) {
 });
 app.get('/admin/upload', function(req, res) {
   res.render('admin')
-});
-app.get('/simulations', function(req, res) {
-  res.render('simulations')
 });
 app.get('/home/signed', function(req, res) {
   res.render('signed/home')
