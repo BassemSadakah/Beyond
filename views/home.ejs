@@ -8,16 +8,14 @@
     #head_new {
       display: inline-block;
         width: 100%;
-        height:300px;
+        max-height:30vw;
         /* background: rgb(254, 242, 0); */
         /* background: radial-gradient(circle, rgba(254, 242, 0, 1) 0%, rgba(255, 133, 0, 1) 63%); */
+        overflow:hidden;
     }
     .cover{
-      overflow:hidden;
+      margin-top:-20vw;
       width:100%;
-      height:300px;
-      object-fit: contain;
-
     }
 
     .head_logo {
@@ -34,60 +32,16 @@
         width: 400px;
     }
 
-    @media(max-width:1000px) {
-        .head_line {
-            visibility: hidden;
-            height: 0;
-            margin: 0;
-        }
 
-        .head_logo {
-            display: block;
-            margin: auto;
-            padding-top: 100px;
-        }
-
-        .head_seekers {
-            display: block;
-            margin-left: 60px;
-
-        }
-
-    }
-
-    @media(max-width:470px) {
-        .head_line {
-            visibility: hidden;
-            height: 0;
-            margin: 0;
-        }
-
-        .head_logo {
-            width: 95%;
-            display: block;
-            margin: auto;
-            padding-top: 100px;
-        }
-
-        .head_seekers {
-            width: 95%;
-            display: block;
-            margin-left: 20px;
-
-        }
 
     }
 </style>
-<!--
 <div id="head_new">
     <center>
-       <img class="cover" src="img/cover.png?rand=<%=Math.random()%>">
-        -<img class="head_logo" src="img/logo.png?rand=<%=Math.random()%>">
-        <img class="head_line" src="img/line.png?rand=<%=Math.random()%>">
-        <img class="head_seekers" src="img/seekers.png?rand=<%=Math.random()%>">
+       <img class="cover" src="img/cover2.jpg">
     </center>
 </div>
--->
+
 <style>
     .home_item {
         max-width: 400px;
