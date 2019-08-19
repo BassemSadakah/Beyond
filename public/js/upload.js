@@ -84,7 +84,7 @@ $('#btn_upload').on('click', function () {
         $('#all input')[i].remove();
       }
     }
-    $('#choices').append('<div class="answer_preview answer_border answer_hover hide" value="0">I don\'t Know the answer<div id="background"></div> </div>');
+    $('#choices').append('<div hidden class="answer_preview answer_border answer_hover hide" value="0">I don\'t Know the answer<div id="background"></div> </div>');
 
     // *****************************COPIED FROM js/home_signed.js *******************
     $('.answer_preview').on('click', function () {
