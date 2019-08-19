@@ -3,7 +3,7 @@ exports.exec=function(data,user_data,req,res){
   var done = 0;
   var last_score = 0;
   var is_included = 0;
-  client.query("SELECT users_sum.id,users_sum.first_name,users_sum.last_name,users_sum.profile_pic,(CASE WHEN((COUNT(questions.id)*10)) is null THEN 0  ELSE ((COUNT(questions.id)*10)) END)+(CASE WHEN(users_sum.sum) is null THEN 0  ELSE (users_sum.sum) END) as user_points  FROM (SELECT users.id,users.first_name,users.last_name,users.profile_pic,SUM(users_answers.user_points) from users LEFT JOIN users_answers ON users.id=users_answers.user_id GROUP BY users.id) as users_sum LEFT JOIN questions ON questions.user_id=users_sum.id GROUP BY users_sum.id,users_sum.sum,users_sum.first_name,users_sum.last_name,users_sum.profile_pic ORDER BY user_points DESC LIMIT 50", function(err, RES) {
+  client.query("SELECT users_sum.id,users_sum.first_name,users_sum.last_name,users_sum.profile_pic,(CASE WHEN((COUNT(questions.id)*10)) is null THEN 0  ELSE ((COUNT(questions.id)*10)) END)+(CASE WHEN(users_sum.sum) is null THEN 0  ELSE (users_sum.sum) END) as user_points  FROM (SELECT users.id,users.first_name,users.last_name,users.profile_pic,SUM(users_answers.user_points) from users LEFT JOIN users_answers ON users.id=users_answers.user_id GROUP BY users.id having users.id<>1) as users_sum LEFT JOIN questions ON questions.user_id=users_sum.id GROUP BY users_sum.id,users_sum.sum,users_sum.first_name,users_sum.last_name,users_sum.profile_pic ORDER BY user_points DESC LIMIT 50", function(err, RES) {
     if (err) {
       console.log(err);
     } else {
