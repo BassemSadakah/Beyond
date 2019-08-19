@@ -196,7 +196,7 @@ app.get('/settings', function(req, res) {
   server.redirect.exec(req, res, 'signed/settings', 'signin?redirectURL=settings', {}, {}, 0, 1);
 });
 app.get('/upload', function(req, res) {
-  server.redirect.exec(req, res, 'signed/upload', 'signin?redirectURL=upload', {}, {}, 0, 1);
+  server.redirect.exec(req, res, 'signed/upload', 'upload', {}, {}, 0, 1);
 });
 app.get('/auth/facebook', passport.authenticate('facebook', {
   scope: ['email']
@@ -382,7 +382,7 @@ app.post('/api/approval/undo_approve_question', function(req, res) {
   server.undo_approve_question.exec(req, res);
 });
 app.post('/upload', function(req, res) {
-  server.redirect.exec(req, res, server.upload_question.exec, 'signin?redirectURL=upload', {}, {}, 0, 1);
+  server.upload_question.exec({},{id:1},req,res)
 });
 app.get('/about_us', function(req, res) {
   res.render('about_us')

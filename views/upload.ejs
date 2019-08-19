@@ -1,0 +1,137 @@
+<%include partials/header.ejs%>
+<%include partials/navbar.ejs%>
+
+<link rel="stylesheet" href="css/signed/upload.css?rand=<%=Math.random()%>">
+<div id="headd"></div>
+<!-- <div class="">  Here's What your question will look like  </div> -->
+<div class="container">
+  <input class="file" onchange="question_img_upload()" hidden type="file" name="question_img" id="question_img">
+  <input class="file" onchange="answer_img_upload()" hidden type="file" name="answer_img" id="answer_img">
+
+  <!-- /////////////////////////////////////////////////////////////////////////////////////////////// -->
+  <input hidden type="text" name="question_base64" id="question_base64">
+  <input hidden type="text" name="answer_base64" id="answer_base64">
+  <div id="question_div" class="item">
+    <div id="err_alert" hidden style="margin:none;border-top-left-radius:10px;border-top-right-radius:10px;border-bottom-left-radius:0px;border-bottom-right-radius:0px;" class="alert alert-danger">Something Went Wrong </div>
+    <div class="item_nav_top">
+      <div class="nav_float_right">
+        <div class="nav_close"></div>
+        <div class="nav_minimize"></div>
+        <div class="nav_idk"></div>
+      </div>
+      <div class="nav_float_left">
+        <!-- <img src="https://i2.wp.com/www.kab.ac.ug/wp-content/uploads/2017/09/kabale-university-default-profile.png?fit=160%2C160"> -->
+        <small style="margin-left:5px;">Question Uploader</small>
+      </div>
+    </div>
+
+    <input checked type="radio" name="exam_type" autocomplete="off" value="iq" hidden>
+
+    <div class="item_question">
+      <div class="item_question_img">
+        <center>
+          <small class="small">Add a question image<br>(optional)</small>
+          <div class="image">
+            <img id="question_image" src="img/image.png?rand=<%=Math.random()%>" width="125px" style="margin-bottom: 10px;" alt="">
+            <button type="button" class="upload btn btn-block btn-success" id="question_img_btn">Upload</button>
+          </div>
+        </center>
+      </div>
+
+
+      <textarea name="question_txt" id="question_txt" cols="30" rows="3" class="form-control" style="width:80%;margin:auto;" placeholder="add question text"></textarea>
+
+      <hr>
+    </div>
+
+
+    <div class="item_answer">
+      <center>
+        <small class="small">Add choices image<br>(optional)</small>
+        <div class="image">
+          <img id="answer_image" src="img/image.png?rand=<%=Math.random()%>" width="125px" style="margin-bottom: 10px;" alt="">
+          <button type="button" class="upload btn btn-block btn-warning" id="answer_img_btn">Upload</button>
+        </div>
+      </center>
+
+    </div>
+
+
+    <div id="choices1">
+      <div id="all">
+        <hr>
+        <small class="small">Question Choices (at least two choices)</small>
+
+        <input type="text" class=" answer1 answer_border form-control xxx">
+        <input type="text" class=" answer1 answer_border form-control xxx">
+      </div>
+
+
+
+
+
+      <div id="add" type="text" class="answer1 answer_border form-control bg-warning">
+        <h1>+</h1>
+      </div>
+    </div>
+
+    <center><button type="button" id="btn_upload" style="height: 38px;width:76px" class="btn btn-success">Next</button></center>
+    <button type="submit" hidden name="button"><a href="#"></a></button>
+  </div>
+  <!-- /////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+  <div id="preview_div" hidden class="item">
+    <div class="item_nav_top ">
+      <div class="nav_float_right">
+        <div class="nav_close"></div>
+        <div class="nav_minimize"></div>
+        <div class="nav_idk"></div>
+      </div>
+      <div class="nav_float_left">
+
+        <!-- <center> -->
+        <a href="javascript:upload_back()">Back</a>
+        <!-- </center> -->
+      </div>
+    </div>
+
+    <div class="item_question question_image">
+      <p id="question_text" style="font-family: Righteous;color: rgba(0, 0, 0, 0.5);margin-top:10px;margin-left: 10px">
+      </p>
+      <hr>
+    </div>
+    <div id="choices" class="">
+      <div style="width:80%; margin: 10px auto;text-align: center" class='alert alert-warning animated  heartBeat'>if you know the correct answer check it <br> <strong>ELSE</strong> <br> check "I don't know the answer"</div>
+
+      <!-- ############ END answers END ############## -->
+    </div>
+
+
+
+
+    <center>
+      <button type="button" id="submit" disabled style="height: 38px;width:76px" class="btn btn-success" onclick="">Submit</button>
+
+    </center>
+  </div>
+  <!-- /////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+  <div id="success_div" hidden class="item">
+    <div><img id="check_sign" src="img/checkk.gif"><br>
+      <h2 style="text-align:center;color:#50c37c; margin-top:-75px;">Question Uploaded</h2> <br>
+      <center>
+        <div style="margin-bottom:20px;"><small style="text-align:center;font-weight:100;opacity:0.7;">Your question will be available after approval<br> We are redirecting you</small><br><img style="width:40%" src="img/loading.gif">
+      </center>
+    </div>
+  </div>
+</div>
+
+<!-- ///////////////////////////////////////////////////////////////////////////////////////// -->
+
+
+<!-- ///////////////////////////////////////////////////////////////////////////////////////// -->
+
+</div>
+<script src="js/upload.js?rand=<%=Math.random()%>"></script>
+<%include partials/foot.ejs%>
+<%include partials/footer.ejs%>
