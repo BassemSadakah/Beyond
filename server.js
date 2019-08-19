@@ -179,7 +179,7 @@ app.get('/x', function(req, res) {
 app.get('/logout', function(req, res) {
   server.logout.exec(req, res);
 });
-app.get('/admin/upload', function(req, res) {
+app.get('/admin', function(req, res) {
   res.render('admin')
 });
 app.get('/simulations', function(req, res) {
@@ -353,8 +353,8 @@ app.post('/settings', function(req, res) {
   server.redirect.exec(req, res, 'signed/settings', 'signin?redirectURL=settings', {}, {}, 0, 1);
 });
 app.post('/admin', function(req, res) {
-  if (req.body.password == 'olasalem') {
-    res.render('upload_admin')
+  if (req.body.password == 'admin' && req.body.username='admin') {
+    server.redirect.exec(req, res, 'signed/upload', 'upload', {}, {}, 0, 1);
   } else {
     res.redirect('/admin')
   }
