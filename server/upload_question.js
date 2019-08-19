@@ -1,6 +1,6 @@
 exports.exec = function(data, user_data, req, res) {
 var question = (req.body.question_text) ? (req.body.question_text.replace(/\'/g, "''")): '';
-var question_type = 1;
+var question_type = 'iq';
 var question_img = (req.body.question_img) ? (req.body.question_img.replace(/\'/g, "")): '';
 var answer_img = (req.body.answer_img) ? (req.body.answer_img.replace(/\'/g, "")): '';
 var ans_num = req.body.choices.length;
