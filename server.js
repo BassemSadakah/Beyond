@@ -31,7 +31,7 @@ const FacebookStrategy = require('passport-facebook').Strategy;
 passport.use(new FacebookStrategy({
   clientID: process.env.clientID,
   clientSecret: process.env.clientSecret,
-  callbackURL: 'https://beyond-project.herokuapp.com//auth/facebook/redirect',
+  callbackURL: 'https://beyond-project.herokuapp.com/auth/facebook/redirect',
   profileFields: ['id', 'emails', 'name', 'photos']
 }, (accessToken, refreshToken, profile, done) => {
   done(null, profile);
