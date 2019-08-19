@@ -123,7 +123,7 @@ app.get('/', function(req, res) {
   server.redirect.exec(req, res, 'signed/home', 'home', {}, {}, 0, 0);
 });
 app.get('/admin', function(req, res) {
-  res.render('question_approval')
+  res.render('admin')
   // res.redirect('/')
 });
 app.get('/api/approval/get_questions', function(req, res) {
