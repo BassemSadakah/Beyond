@@ -179,10 +179,6 @@ app.get('/x', function(req, res) {
 app.get('/logout', function(req, res) {
   server.logout.exec(req, res);
 });
-app.get('/admin', function(req, res) {
-  // res.render('admin');
-  res.send('<h2 style="text-align:center">Why Are You Here?</h2>')
-});
 app.get('/admin/upload', function(req, res) {
   res.render('admin')
 });

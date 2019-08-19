@@ -21,34 +21,19 @@ app.use(bodyParser.urlencoded({
   limit: '10mb',
   extended: true
 }));
-
-app.get('/simulations', function(req, res) {
-  res.render('simulations')
+passport.serializeUser(function(user, done) {
+  done(null, user);
 });
-/*
-{
- user: 'postgres',
- password: 'root',
- database: 'postgres',
- port: 5432,
- host: 'localhost',
- ssl: false
-}
-*/
+// passport.deserializeUser(function(user, done) {
+//   done(null, user);
+// });
 
-global.client = new pg.Client({
-  user: 'postgres',
-  password: 'root',
-  database: 'postgres',
-  port: 5432,
-  host: 'localhost',
-  ssl: false
-});
+global.client = new pg.Client(process.env.DATABASE_URL);
 client.connect();
 /*
 //ALTER TO ADD TIMESTAMP DEFAULT TO NOW() in questions, users_answers,users
-ALTER TABLE mytable ADD COLUMN time TIMESTAMP;
-ALTER TABLE mytable ALTER COLUMN time SET DEFAULT now();
+ALTER TABLE users ADD COLUMN time TIMESTAMP;
+ALTER TABLE users ALTER COLUMN time SET DEFAULT now();
 
 ALTER TABLE questions ADD COLUMN seen INT;
 ALTER TABLE questions ALTER COLUMN seen SET DEFAULT 0;
@@ -69,6 +54,7 @@ CREATE TABLE sessions (
    session_id VARCHAR(100) UNIQUE NOT NULL, //changed to be not unique due to unknown bug
    exp_time VARCHAR(100) NOT NULL
 );
+
 
 
 CREATE TABLE questions (
@@ -127,7 +113,7 @@ seen INT DEFAULT 0 NOT NULL
 app.get('/', function(req, res) {
   server.redirect.exec(req, res, 'signed/home', 'home', {}, {}, 0, 0);
 });
-app.get('/adnim/approval', function(req, res) {
+app.get('/admin', function(req, res) {
   res.render('question_approval')
   // res.redirect('/')
 });
@@ -184,12 +170,11 @@ app.get('/x', function(req, res) {
 app.get('/logout', function(req, res) {
   server.logout.exec(req, res);
 });
-app.get('/admin', function(req, res) {
-  // res.render('admin');
-  res.send('<h2 style="text-align:center">Why Are You Here?</h2>')
-});
 app.get('/admin/upload', function(req, res) {
   res.render('admin')
+});
+app.get('/simulations', function(req, res) {
+  server.redirect.exec(req, res, 'signed/simulations', 'simulations', {}, {});
 });
 app.get('/home/signed', function(req, res) {
   res.render('signed/home')
@@ -198,7 +183,7 @@ app.get('/settings', function(req, res) {
   server.redirect.exec(req, res, 'signed/settings', 'signin?redirectURL=settings', {}, {}, 0, 1);
 });
 app.get('/upload', function(req, res) {
-  server.redirect.exec(req, res, 'signed/upload', 'signin?redirectURL=upload', {}, {}, 0, 1);
+  server.redirect.exec(req, res, 'signed/upload', 'upload', {}, {}, 0, 1);
 });
 app.get('/auth/facebook', passport.authenticate('facebook', {
   scope: ['email']
@@ -384,7 +369,7 @@ app.post('/api/approval/undo_approve_question', function(req, res) {
   server.undo_approve_question.exec(req, res);
 });
 app.post('/upload', function(req, res) {
-  server.redirect.exec(req, res, server.upload_question.exec, 'signin?redirectURL=upload', {}, {}, 0, 1);
+  server.upload_question.exec({},{id:1},req,res)
 });
 app.get('/about_us', function(req, res) {
   res.render('about_us')
