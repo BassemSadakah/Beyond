@@ -70,8 +70,8 @@
   }
 
   .l_item:hover .fa-play-circle {
-      /* transform: rotate(0.34turn) scale(1.1); */
-      /* color: green; */
+    /* transform: rotate(0.34turn) scale(1.1); */
+    /* color: green; */
   }
 
   .l_item:hover {
@@ -93,22 +93,22 @@
   <div class="lesson_items" value=1>
     <div class="l_item">
       <i class="fas fa-play-circle"></i>
-      <div class="i_head"><span class='head_s'>Solar System VR video</span>
+      <div class="i_head"><span class='head_s'>Solar System VR Video</span>
         <hr class='hr_sub'>
         <h3>
-          Solar System Video showing the 8 planets of the Solar System orbiting the Sun. As we move out from Mercury, Venus, Earth and Mars, towards the gas </h3>
+          Solar System Video showing the 8 planets of the Solar System orbiting the Sun.</h3>
       </div>
     </div>
     <hr class='hr_main'>
   </div>
 
-  <div class="lesson_items" value=1>
+  <div class="lesson_items" value=2>
     <div class="l_item">
       <i class="fas fa-play-circle"></i>
       <div class="i_head"><span class='head_s'>Inside Our Body VR Video</span>
         <hr class='hr_sub'>
         <h3>
-          Solar System Video showing the 8 planets of the Solar System orbiting the Sun. As we move out from Mercury, Venus, Earth and Mars, towards the gas </h3>
+          Coming Soon!
       </div>
     </div>
     <hr class='hr_main'>
@@ -117,31 +117,48 @@
 
 </div>
 <script type="text/javascript">
-  var isvid=0;
-  var vid_id=0;
+  var isvid = 0;
+  var vid_id = 0;
 
-$('.lesson_items').hover(function(){
-var l_value=$(this).attr('value');
-if(!(isvid & l_value==vid_id)){
-  jQuery(this).find('i').css("transform","rotate(0.335turn) scale(1.1)");
-  jQuery(this).find('i').css("color","green");
-}},function(){
-  var l_value=$(this).attr('value');
-  if(!(isvid & l_value==vid_id)){
-  jQuery(this).find('i').css("transform","rotate(0turn) scale(1.1)");
-  jQuery(this).find('i').css("color","#212529");
-}});
-
-
-
-$('.lesson_items').on('click',function(){
-  var vid_id_temp=$(this).attr('value')
-  if(isvid && vid_id_temp==vid_id){
-    $('.vid').remove();
-    isvid=0;
-    vid_id=0;
+  $('.lesson_items').hover(function() {
+    var l_value = $(this).attr('value');
+    if (!(isvid & l_value == vid_id)) {
+      jQuery(this).find('i').css("transform", "rotate(0.335turn) scale(1.1)");
+      jQuery(this).find('i').css("color", "green");
     }
-    else if(isvid && vid_id_temp!=vid_id){
+  }, function() {
+    var l_value = $(this).attr('value');
+    if (!(isvid & l_value == vid_id)) {
+      jQuery(this).find('i').css("transform", "rotate(0turn) scale(1.1)");
+      jQuery(this).find('i').css("color", "#212529");
+    }
+  });
+
+
+
+  $('.lesson_items').on('click', function() {
+    var vid_id_temp = $(this).attr('value')
+    if (vid_id_temp == 2 &isvid==0) {
+      $('.vid').remove();
+      $(this).append(`
+      <div class="vid">
+      <h4 style='text-align:center;'>Coming Soon!</h4>
+      </div>
+      `);
+      for (var i = 0; i < $('.fa-play-circle').length; i++) {
+        $('i').eq(i).css("color", "#212529");
+        jQuery(this).find('i').css("color", "green");
+        if ((i + 1) != vid_id) {}
+      }
+      isvid = 1;
+      vid_id = vid_id_temp;
+
+    }
+    else if (isvid && vid_id_temp == vid_id) {
+      $('.vid').remove();
+      isvid = 0;
+      vid_id = 0;
+    } else if (isvid && vid_id_temp != vid_id) {
       $('.vid').remove();
       $(this).append(`
       <div class="vid">
@@ -150,31 +167,28 @@ $('.lesson_items').on('click',function(){
       </div>
       </div>
       `)
-      for(var i=0;i<$('.fa-play-circle').length;i++){
-        $('i').eq(i).css("color","#212529");
-        jQuery(this).find('i').css("color","green");
-        if((i+1)!=vid_id){
-        }
+      for (var i = 0; i < $('.fa-play-circle').length; i++) {
+        $('i').eq(i).css("color", "#212529");
+        jQuery(this).find('i').css("color", "green");
+        if ((i + 1) != vid_id) {}
       }
-      isvid=1;
-      vid_id=vid_id_temp;
-    }
-    else {
-$(this).append(`
+      isvid = 1;
+      vid_id = vid_id_temp;
+    } else {
+      $(this).append(`
 <div class="vid">
 <div class="embed-responsive embed-responsive-16by9">
   <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/S1qjn16I2r4?rel=0&autoplay=1" allowfullscreen></iframe>
 </div>
 </div>
 `)
-jQuery(this).find('i').css("color","green");
-isvid=1;
-vid_id=vid_id_temp;
+      jQuery(this).find('i').css("color", "green");
+      isvid = 1;
+      vid_id = vid_id_temp;
 
-}
-})
-
+    }
+  })
 </script>
 
 <%include partials/foot.ejs%>
-  <% include partials/footer.ejs %>
+<% include partials/footer.ejs %>
