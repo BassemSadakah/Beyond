@@ -139,7 +139,7 @@
 
   $('.lesson_items').on('click', function() {
     var vid_id_temp = $(this).attr('value')
-    if (vid_id_temp == 2 &isvid==0) {
+    if (vid_id_temp == 2 & isvid == 0) {
       $('.vid').remove();
       $(this).append(`
       <div class="vid">
@@ -148,14 +148,13 @@
       `);
       for (var i = 0; i < $('.fa-play-circle').length; i++) {
         $('i').eq(i).css("color", "#212529");
-        jQuery(this).find('i').css("color", "green");
+        // jQuery(this).find('i').css("color", "green");
         if ((i + 1) != vid_id) {}
       }
       isvid = 1;
       vid_id = vid_id_temp;
 
-    }
-    else if (isvid && vid_id_temp == vid_id) {
+    } else if (isvid && vid_id_temp == vid_id) {
       $('.vid').remove();
       isvid = 0;
       vid_id = 0;
@@ -183,6 +182,7 @@
 </div>
 </div>
 `)
+      jQuery(this).find('i').css("color", "green");
       isvid = 1;
       vid_id = vid_id_temp;
 
