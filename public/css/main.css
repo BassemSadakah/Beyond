@@ -81,10 +81,10 @@ display: none; }
   }
 }
 
-@media(max-width:1032px) {
+@media(max-width:600px) {
   #navbar {
     /* font-size: 0.4em !important; */
-    font-size: 0.78em !important;
+    font-size: 0.95em !important;
   }
 
   #navbar button {
