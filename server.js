@@ -354,7 +354,7 @@ app.post('/settings', function(req, res) {
 });
 app.post('/admin', function(req, res) {
   if (req.body.password == 'admin' && req.body.username=='admin') {
-    server.redirect.exec(req, res, 'signed/upload', 'upload', {}, {}, 0, 1);
+    server.redirect.exec(req, res, 'signed/upload', 'upload', {}, {}, 0, 0);
   } else {
     res.redirect('/admin')
   }
